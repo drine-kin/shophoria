@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { BsHandbag } from "react-icons/bs";
 import { GoPerson } from "react-icons/go";
 import { HiMenuAlt1, HiX, HiChevronDown, HiChevronUp } from "react-icons/hi";
@@ -8,6 +8,8 @@ import { IoIosClose } from "react-icons/io";
 import navLinks from "../../constants/navLinks";
 import brands from "../../constants/brands";
 import categories from "../../constants/categories";
+import Heading from "../ui/Heading";
+import useCartStore from "../../store/cartStore";
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,11 +17,14 @@ const Header = () => {
     const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
     const [brandsTimeoutId, setBrandsTimeoutId] = useState(null);
     const [categoriesTimeoutId, setCategoriesTimeoutId] = useState(null);
+    const navigate = useNavigate();
     const location = useLocation();
+    const itemsCount = useCartStore((state) => state.items.length);
 
     const isBrandsActive = brands.some((brand) =>
         location.pathname.startsWith(brand.link)
     );
+
     const isCategoriesActive = categories.some((category) =>
         location.pathname.startsWith(category.link)
     );
@@ -87,13 +92,13 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-primary py-6 sticky top-0">
+        <header className="bg-primary py-6 sticky top-0 z-50">
             <div className="container">
                 <div className="flex justify-between items-center">
                     <Link to="/">
-                        <h2 className="text-white text-2xl tracking-wide font-light">
+                        <Heading as="h2" className="text-white font-light">
                             SHOPHORIA
-                        </h2>
+                        </Heading>
                     </Link>
 
                     {/* Desktop Menu */}
@@ -115,7 +120,14 @@ const Header = () => {
                                                 handleBrandsMouseLeave
                                             }
                                         >
-                                            {item.label}
+                                            <div className="flex items-center text-lg">
+                                                {item.label}
+                                                {isBrandsOpen ? (
+                                                    <HiChevronUp size={20} />
+                                                ) : (
+                                                    <HiChevronDown size={20} />
+                                                )}
+                                            </div>
                                             {/* Brands Submenu */}
                                             <div
                                                 className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform ${
@@ -164,7 +176,14 @@ const Header = () => {
                                                 handleCategoriesMouseLeave
                                             }
                                         >
-                                            {item.label}
+                                            <div className="flex items-center text-lg">
+                                                {item.label}
+                                                {isCategoriesOpen ? (
+                                                    <HiChevronUp size={20} />
+                                                ) : (
+                                                    <HiChevronDown size={20} />
+                                                )}
+                                            </div>
                                             {/* Categories Submenu */}
                                             <div
                                                 className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform ${
@@ -201,8 +220,9 @@ const Header = () => {
                                     ) : (
                                         <NavLink
                                             to={item.href}
+                                            end={item.href === '/'}
                                             className={({ isActive }) =>
-                                                `font-light hover:text-gray-800 transition-colors duration-200 ${
+                                                `text-lg font-light hover:text-secondary transition-colors duration-200 ${
                                                     isActive
                                                         ? "text-secondary"
                                                         : "text-white"
@@ -216,8 +236,14 @@ const Header = () => {
                             ))}
                         </ul>
                         <div className="flex items-center gap-6">
-                            <div className="text-white">
+                            <div
+                                className="relative text-white cursor-pointer transition-transform duration-400 hover:text-secondary"
+                                onClick={() => navigate("/cart")}
+                            >
                                 <BsHandbag size={20} />
+                                <span className="absolute -top-1.5  -right-1.5 text-xs text-white bg-secondary w-3.5 h-4 p-[0.2px] rounded-full flex justify-center items-center">
+                                    {itemsCount}
+                                </span>
                             </div>
                             <div className="text-white">
                                 <GoPerson size={20} />
@@ -246,9 +272,9 @@ const Header = () => {
                 >
                     <div className="container py-4">
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-white text-xl tracking-wide font-light">
+                            <Heading as="h2" className="text-white font-light">
                                 SHOPHORIA
-                            </h2>
+                            </Heading>
                             <button
                                 className="text-white hover:text-primary focus:outline-none transition-colors duration-200"
                                 onClick={toggleMobileMenu}
@@ -295,19 +321,15 @@ const Header = () => {
                                                         <li key={brand.id}>
                                                             <NavLink
                                                                 to={brand.link}
-                                                                className={({
-                                                                    isActive,
-                                                                }) =>
+                                                                className={({ isActive }) =>
                                                                     `font-light text-sm py-1.5 hover:text-primary transition-colors duration-200 ${
                                                                         isActive
-                                                                            ? "text-secondary"
+                                                                            ? "text-gray-800"
                                                                             : "text-white"
                                                                     }`
                                                                 }
                                                                 onClick={() =>
-                                                                    setIsMobileMenuOpen(
-                                                                        false
-                                                                    )
+                                                                    setIsMobileMenuOpen(false)
                                                                 }
                                                             >
                                                                 {brand.name}
@@ -351,18 +373,11 @@ const Header = () => {
                                                 <ul className="pl-4 py-1.5 space-y-1">
                                                     {categories.map(
                                                         (category) => (
-                                                            <li
-                                                                key={
-                                                                    category.id
-                                                                }
-                                                            >
+                                                            <li key={category.id}>
                                                                 <NavLink
-                                                                    to={
-                                                                        category.link
-                                                                    }
-                                                                    className={({
-                                                                        isActive,
-                                                                    }) =>
+                                                                    to={category.link}
+                                                                    end={category.link === '/'}
+                                                                    className={({ isActive }) =>
                                                                         `font-light text-sm py-1.5 hover:text-primary transition-colors duration-200 ${
                                                                             isActive
                                                                                 ? "text-secondary"
@@ -370,14 +385,10 @@ const Header = () => {
                                                                         }`
                                                                     }
                                                                     onClick={() =>
-                                                                        setIsMobileMenuOpen(
-                                                                            false
-                                                                        )
+                                                                        setIsMobileMenuOpen(false)
                                                                     }
                                                                 >
-                                                                    {
-                                                                        category.name
-                                                                    }
+                                                                    {category.name}
                                                                 </NavLink>
                                                             </li>
                                                         )
@@ -406,8 +417,17 @@ const Header = () => {
                             ))}
                         </ul>
                         <div className="flex items-center gap-6 mt-6">
-                            <div className="text-white">
+                            <div
+                                className="relative text-white cursor-pointer transition-transform duration-400 hover:text-secondary"
+                                onClick={() => {
+                                    navigate("/cart");
+                                    setIsMobileMenuOpen(false);
+                                }}
+                            >
                                 <BsHandbag size={20} />
+                                <span className="absolute -top-1.5  -right-1.5 text-xs text-white bg-secondary w-3.5 h-4 p-[0.2px] rounded-full flex justify-center items-center">
+                                    {itemsCount}
+                                </span>
                             </div>
                             <div className="text-white">
                                 <GoPerson size={20} />

@@ -4,19 +4,19 @@ import { BiLogoInstagramAlt } from "react-icons/bi";
 const socialLinks = [
     {
         icon: FaTiktok,
-        href: "www.tiktok.com"
+        href: "https://www.tiktok.com"
     },
     {
         icon: BiLogoInstagramAlt,
-        href: "www.instagram.com"
+        href: "https://www.instagram.com"
     },
     {
         icon: FaTwitter,
-        href: "www.twitter.com"
+        href: "https://www.twitter.com"
     },
     {
         icon: FaYoutube,
-        href: "www.youtube.com"
+        href: "https://www.youtube.com"
     },
 ]
 

@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -7,6 +8,18 @@ const Layout = ({ children }) => {
             <Header />
             <main>{children}</main>
             <Footer />
+            <Toaster
+                position="bottom-right"
+                toastOptions={{
+                    success: {
+                        duration: 3000,
+                        iconTheme: {
+                            primary: "#E3462C",
+                            secondary: "#fff",
+                        },
+                    },
+                }}
+            />
         </div>
     );
 };

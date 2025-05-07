@@ -14,6 +14,24 @@
     }
 }
 
+@layer utilities {
+    .swiper-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        cursor: pointer;
+    }
+
+    .swiper-arrow-next {
+        right: 0;
+    }
+
+    .swiper-arrow-prev {
+        left: 0;
+    }
+}
+
 /* @layer utilities {
     .lato-light {
         font-family: "Lato", sans-serif;
