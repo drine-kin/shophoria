@@ -102,7 +102,7 @@ const Cart = () => {
                                 </div>
                             </div>
                             <div className="pt-2 flex justify-end xl:justify-center">
-                                <Button className="bg-primary text-white w-full md:w-auto xl:w-full">
+                                <Button className="bg-primary text-white w-full sm:w-auto xl:w-full">
                                     Check Out
                                 </Button>
                             </div>

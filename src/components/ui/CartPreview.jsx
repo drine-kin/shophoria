@@ -55,7 +55,7 @@ const CartPreview = ({ item, className }) => {
                 </div>
                 <div className="w-full md:w-2/12 flex items-center gap-2">
                     <div
-                        className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-400 hover:bg-primary border border-accent rounded-full"
+                        className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
                         onClick={handleDecreaseQty}
                     >
                         <HiOutlineMinusSmall size={20} />
@@ -64,7 +64,7 @@ const CartPreview = ({ item, className }) => {
                         {currentItem.quantity}
                     </Paragraph>
                     <div
-                        className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-400 hover:bg-primary border border-accent rounded-full"
+                        className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
                         onClick={handleIncreaseQty}
                     >
                         <HiOutlinePlusSmall size={20} />
@@ -78,7 +78,7 @@ const CartPreview = ({ item, className }) => {
                 <div className="w-full md:w-1/12">
                     <HiOutlineTrash
                         size={20}
-                        className="cursor-pointer text-red-500 transition-colors duration-400 hover:scale-110"
+                        className="cursor-pointer text-red-500 transition-colors duration-300 hover:scale-110"
                         onClick={handleDeleteFromCart}
                     />
                 </div>
@@ -103,7 +103,7 @@ const CartPreview = ({ item, className }) => {
                             </Paragraph>
                             <div className="flex justify-between items-center gap-2">
                                 <div
-                                    className="w-5 h-5 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-400 hover:bg-primary border border-accent rounded-full"
+                                    className="w-5 h-5 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
                                     onClick={handleDecreaseQty}
                                 >
                                     <HiOutlineMinusSmall size={20} />
@@ -112,7 +112,7 @@ const CartPreview = ({ item, className }) => {
                                     {currentItem.quantity}
                                 </Paragraph>
                                 <div
-                                    className="w-5 h-5 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-400 hover:bg-primary border border-accent rounded-full"
+                                    className="w-5 h-5 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
                                     onClick={handleIncreaseQty}
                                 >
                                     <HiOutlinePlusSmall size={20} />

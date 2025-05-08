@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { HiOutlineMinusSmall, HiOutlinePlusSmall } from "react-icons/hi2";
 import Paragraph from "./Paragraph";
 import Image from "./Image";
 import Button from "./Button";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { HiOutlineMinusSmall, HiOutlinePlusSmall } from "react-icons/hi2";
 import Heading from "./Heading";
 import useCartStore from "../../store/cartStore";
-import toast from "react-hot-toast";
 
 const ProductPreview = ({ item }) => {
     const [qty, setQty] = useState(1);
@@ -69,7 +69,7 @@ const ProductPreview = ({ item }) => {
     };
 
     return (
-        <article className="bg-white rounded-md overflow-hidden transition-transform duration-400 hover:scale-[1.01]">
+        <article className="bg-white rounded-md overflow-hidden transition-transform duration-300 hover:scale-[1.01]">
             <div className="relative">
                 <Image
                     src={item.images?.[0]}
@@ -100,7 +100,7 @@ const ProductPreview = ({ item }) => {
                 <div className="flex flex-wrap justify-between items-center gap-4">
                     <div className="flex items-center gap-3">
                         <div
-                            className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-400 hover:bg-primary border border-accent rounded-full"
+                            className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
                             onClick={handleDecreaseQty}
                         >
                             <HiOutlineMinusSmall size={20} />
@@ -118,14 +118,14 @@ const ProductPreview = ({ item }) => {
                             className="text-white bg-transparent outline-none w-7 text-center"
                         />
                         <div
-                            className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-400 hover:bg-primary border border-accent rounded-full"
+                            className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
                             onClick={handleIncreaseQty}
                         >
                             <HiOutlinePlusSmall size={20} />
                         </div>
                     </div>
                     <Button
-                        className="text-white bg-primary transition-transform duration-400 hover:bg-primary/80"
+                        className="text-white bg-primary transition-transform duration-300 hover:bg-primary/80"
                         onClick={handleAddToCart}
                     >
                         Add To Cart

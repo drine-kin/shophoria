@@ -15,15 +15,15 @@ const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isBrandsOpen, setIsBrandsOpen] = useState(false);
     const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-    const [brandsTimeoutId, setBrandsTimeoutId] = useState(null);
+    // const [brandsTimeoutId, setBrandsTimeoutId] = useState(null);
     const [categoriesTimeoutId, setCategoriesTimeoutId] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
     const itemsCount = useCartStore((state) => state.items.length);
 
-    const isBrandsActive = brands.some((brand) =>
-        location.pathname.startsWith(brand.link)
-    );
+    // const isBrandsActive = brands.some((brand) =>
+    //     location.pathname.startsWith(brand.link)
+    // );
 
     const isCategoriesActive = categories.some((category) =>
         location.pathname.startsWith(category.link)
@@ -41,32 +41,32 @@ const Header = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-    const handleBrandsMouseEnter = () => {
-        if (brandsTimeoutId) {
-            clearTimeout(brandsTimeoutId);
-        }
-        if (categoriesTimeoutId) {
-            clearTimeout(categoriesTimeoutId);
-            setIsCategoriesOpen(false);
-        }
-        setIsBrandsOpen(true);
-    };
+    // const handleBrandsMouseEnter = () => {
+    //     if (brandsTimeoutId) {
+    //         clearTimeout(brandsTimeoutId);
+    //     }
+    //     if (categoriesTimeoutId) {
+    //         clearTimeout(categoriesTimeoutId);
+    //         setIsCategoriesOpen(false);
+    //     }
+    //     setIsBrandsOpen(true);
+    // };
 
-    const handleBrandsMouseLeave = () => {
-        const id = setTimeout(() => {
-            setIsBrandsOpen(false);
-        }, 300);
-        setBrandsTimeoutId(id);
-    };
+    // const handleBrandsMouseLeave = () => {
+    //     const id = setTimeout(() => {
+    //         setIsBrandsOpen(false);
+    //     }, 300);
+    //     setBrandsTimeoutId(id);
+    // };
 
     const handleCategoriesMouseEnter = () => {
         if (categoriesTimeoutId) {
             clearTimeout(categoriesTimeoutId);
         }
-        if (brandsTimeoutId) {
-            clearTimeout(brandsTimeoutId);
-            setIsBrandsOpen(false);
-        }
+        // if (brandsTimeoutId) {
+        //     clearTimeout(brandsTimeoutId);
+        //     setIsBrandsOpen(false);
+        // }
         setIsCategoriesOpen(true);
     };
 
@@ -77,12 +77,12 @@ const Header = () => {
         setCategoriesTimeoutId(id);
     };
 
-    const toggleBrands = () => {
-        setIsBrandsOpen(!isBrandsOpen);
-        if (isCategoriesOpen) {
-            setIsCategoriesOpen(false);
-        }
-    };
+    // const toggleBrands = () => {
+    //     setIsBrandsOpen(!isBrandsOpen);
+    //     if (isCategoriesOpen) {
+    //         setIsCategoriesOpen(false);
+    //     }
+    // };
 
     const toggleCategories = () => {
         setIsCategoriesOpen(!isCategoriesOpen);
@@ -106,7 +106,7 @@ const Header = () => {
                         <ul className="flex gap-8 justify-between items-center text-white">
                             {navLinks.map((item) => (
                                 <li key={item.label} className="relative">
-                                    {item.label === "Brands" ? (
+                                    {/* {item.label === "Brands" ? (
                                         <div
                                             className={`font-light cursor-pointer ${
                                                 isBrandsOpen || isBrandsActive
@@ -128,7 +128,7 @@ const Header = () => {
                                                     <HiChevronDown size={20} />
                                                 )}
                                             </div>
-                                            {/* Brands Submenu */}
+                                            //  Brands Submenu 
                                             <div
                                                 className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform ${
                                                     isBrandsOpen
@@ -161,7 +161,8 @@ const Header = () => {
                                                 ))}
                                             </div>
                                         </div>
-                                    ) : item.label === "Categories" ? (
+                                    ) :   */}
+                                    {item.label === "Categories" ? (
                                         <div
                                             className={`font-light cursor-pointer ${
                                                 isCategoriesOpen ||
@@ -237,7 +238,7 @@ const Header = () => {
                         </ul>
                         <div className="flex items-center gap-6">
                             <div
-                                className="relative text-white cursor-pointer transition-transform duration-400 hover:text-secondary"
+                                className="relative text-white cursor-pointer transition-transform duration-300 hover:text-secondary"
                                 onClick={() => navigate("/cart")}
                             >
                                 <BsHandbag size={20} />
@@ -285,7 +286,7 @@ const Header = () => {
                         <ul className="flex flex-col text-white space-y-2">
                             {navLinks.map((item) => (
                                 <li key={item.label}>
-                                    {item.label === "Brands" ? (
+                                    {/* {item.label === "Brands" ? (
                                         <div>
                                             <button
                                                 className={`flex items-center justify-between w-full font-light text-base ${
@@ -339,7 +340,8 @@ const Header = () => {
                                                 </ul>
                                             </div>
                                         </div>
-                                    ) : item.label === "Categories" ? (
+                                    ) : */}
+                                    {item.label === "Categories" ? (
                                         <div>
                                             <button
                                                 className={`flex items-center justify-between w-full font-light text-base ${
@@ -418,7 +420,7 @@ const Header = () => {
                         </ul>
                         <div className="flex items-center gap-6 mt-6">
                             <div
-                                className="relative text-white cursor-pointer transition-transform duration-400 hover:text-secondary"
+                                className="relative text-white cursor-pointer transition-transform duration-300 hover:text-secondary"
                                 onClick={() => {
                                     navigate("/cart");
                                     setIsMobileMenuOpen(false);

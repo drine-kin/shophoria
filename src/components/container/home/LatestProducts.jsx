@@ -1,20 +1,29 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-
 import products from "../../../constants/products";
 import Heading from "../../ui/Heading";
 import ProductPreview from "../../ui/ProductPreview";
+import Paragraph from "../../ui/Paragraph";
+import Image from "../../ui/Image";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import Paragraph from "../../ui/Paragraph";
-import Image from "../../ui/Image";
+import { Link } from "react-router-dom";
+import Button from "../../ui/Button";
 
 const LatestProducts = () => {
     return (
         <div className="bg-secondary">
-            <div className="container relative px-16 py-8 space-y-4">
-                <Heading className="font-medium">Latest Products</Heading>
+            <div className="container relative px-10 lg:px-16 py-8 space-y-4">
+                <div className="flex justify-between items-center">
+                    <Heading className="!font-medium">Our Products</Heading>
+                    <Link to="/shop">
+                        <Button className="bg-white transition-colors duration-300 hover:bg-primary hover:text-white">
+                            See More
+                        </Button>
+                    </Link>
+                </div>
+
                 {products?.length > 0 ? (
                     <div>
                         <Swiper
@@ -40,7 +49,7 @@ const LatestProducts = () => {
                                 prevEl: ".swiper-arrow-prev",
                             }}
                             loop
-                            className="my-10"
+                            className="my-8"
                         >
                             {products.map((item) => (
                                 <SwiperSlide key={item.id}>
@@ -48,14 +57,14 @@ const LatestProducts = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                        <div className="swiper-arrow swiper-arrow-next bg-primary lg:right-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
+                        <div className="swiper-arrow swiper-arrow-next bg-primary !right-1 lg:!right-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
                             <Image
                                 src="/svg/chevron-right.svg"
                                 alt="Slider Right Arrow"
                                 className="w-[30px] h-[30px]"
                             />
                         </div>
-                        <div className="swiper-arrow swiper-arrow-prev bg-primary lg:left-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
+                        <div className="swiper-arrow swiper-arrow-prev bg-primary !left-1 lg:!left-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
                             <Image
                                 src="/svg/chevron-left.svg"
                                 alt="Slider Left Arrow"
