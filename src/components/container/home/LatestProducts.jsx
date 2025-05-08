@@ -45,8 +45,8 @@ const LatestProducts = () => {
                             spaceBetween={20}
                             modules={[Navigation]}
                             navigation={{
-                                nextEl: ".swiper-arrow-next",
-                                prevEl: ".swiper-arrow-prev",
+                                nextEl: ".next-products",
+                                prevEl: ".prev-products",
                             }}
                             loop
                             className="my-8"
@@ -57,14 +57,14 @@ const LatestProducts = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                        <div className="swiper-arrow swiper-arrow-next bg-primary !right-1 lg:!right-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
+                        <div className="swiper-arrow swiper-arrow-next next-products bg-primary !right-1 lg:!right-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
                             <Image
                                 src="/svg/chevron-right.svg"
                                 alt="Slider Right Arrow"
                                 className="w-[30px] h-[30px]"
                             />
                         </div>
-                        <div className="swiper-arrow swiper-arrow-prev bg-primary !left-1 lg:!left-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
+                        <div className="swiper-arrow swiper-arrow-prev prev-products bg-primary !left-1 lg:!left-5 hover:bg-default-100/70 transition-colors delay-50 rounded-md">
                             <Image
                                 src="/svg/chevron-left.svg"
                                 alt="Slider Left Arrow"
