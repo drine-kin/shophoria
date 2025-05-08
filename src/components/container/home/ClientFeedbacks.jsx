@@ -1,17 +1,18 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
 import feedbacks from "../../../constants/feedbacks";
 import Image from "../../ui/Image";
 import Heading from "../../ui/Heading";
 import Paragraph from "../../ui/Paragraph";
 
+import "swiper/css";
+import "swiper/css/navigation";
+
 const ClientFeedbacks = () => {
     return (
         <div className="bg-surface">
             <div className="container md:px-16 py-8 space-y-8">
-                <Heading className="font-medium text-center pt-4">
+                <Heading className="font-medium text-accent text-center pt-4">
                     What our clients say about us
                 </Heading>
                 <div className="relative">
@@ -43,7 +44,7 @@ const ClientFeedbacks = () => {
                                                 >
                                                     {item.title}
                                                 </Heading>
-                                                <Paragraph className="text-accent text-base">
+                                                <Paragraph >
                                                     {item.description}
                                                 </Paragraph>
                                             </div>
@@ -54,7 +55,7 @@ const ClientFeedbacks = () => {
                                                 >
                                                     {item.name}
                                                 </Heading>
-                                                <Paragraph className="text-accent">
+                                                <Paragraph>
                                                     {item.position}
                                                 </Paragraph>
                                             </div>

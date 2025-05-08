@@ -16,7 +16,7 @@ const LatestProducts = () => {
         <div className="bg-secondary">
             <div className="container relative px-10 lg:px-16 py-8 space-y-4">
                 <div className="flex justify-between items-center">
-                    <Heading className="!font-medium">Our Products</Heading>
+                    <Heading className="text-accent font-medium">Our Products</Heading>
                     <Link to="/shop">
                         <Button className="bg-white transition-colors duration-300 hover:bg-primary hover:text-white">
                             See More

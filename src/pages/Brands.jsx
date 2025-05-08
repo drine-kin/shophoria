@@ -1,25 +1,19 @@
 import { Link } from "react-router-dom";
-import Heading from "../../ui/Heading";
-import Image from "../../ui/Image";
-import Button from "../../ui/Button";
+import Image from "../components/ui/Image";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
+import Heading from "../components/ui/Heading";
 
-const OurBrands = () => {
+const Brands = () => {
     return (
-        <div className="bg-primary py-8">
-            <div className="container space-y-6">
-                <div className="flex justify-between items-center">
-                    <Heading className="font-medium text-white">
-                        Our Main Brands
-                    </Heading>
-                    <Link to="/brands">
-                        <Button className="bg-white transition-colors duration-300 hover:bg-accent hover:text-white">
-                            See More
-                        </Button>
-                    </Link>
-                </div>
-                <div className="bg-white rounded-md px-8 py-4">
+        <>
+            <Breadcrumbs />
+            <div className="container py-8">
+                <Heading as="h2" className="text-accent font-medium">
+                    Brands
+                </Heading>
+                <div className="bg-white rounded-md py-4">
                     <div className="flex flex-wrap -mx-3">
-                        {Array(5)
+                        {Array(10)
                             .fill(0)
                             .map((item, idx) => (
                                 <Link
@@ -37,8 +31,8 @@ const OurBrands = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
-export default OurBrands;
+export default Brands;

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { HiOutlineMinusSmall, HiOutlinePlusSmall } from "react-icons/hi2";
 import Heading from "../../ui/Heading";
 import Paragraph from "../../ui/Paragraph";
 import Image from "../../ui/Image";
-import useCartStore from "../../../store/cartStore";
-import { HiOutlineMinusSmall, HiOutlinePlusSmall } from "react-icons/hi2";
 import Button from "../../ui/Button";
-import toast from "react-hot-toast";
 import Rating from "../../ui/Rating";
+import useCartStore from "../../../store/cartStore";
 
 const product = {
     id: 4,
