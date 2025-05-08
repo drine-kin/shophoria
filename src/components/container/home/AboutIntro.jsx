@@ -14,7 +14,7 @@ const IconContainer = ({ label }) => {
     );
 };
 
-const AboutIntro = () => {
+const AboutIntro = ({ btnLabel, goToLink }) => {
     return (
         <div className="bg-surface">
             <div className="container py-16">
@@ -23,7 +23,7 @@ const AboutIntro = () => {
                         <Image
                             src="/images/about-us.jpg"
                             alt="Banner Image"
-                            className="object-cover w-auto h-full xl:h-[360px] md:m-auto"
+                            className="object-cover w-auto h-full rounded-md xl:h-[360px] md:m-auto"
                         />
                     </div>
                     <div className="w-full md:w-1/2">
@@ -43,9 +43,9 @@ const AboutIntro = () => {
                                 <IconContainer label="Fast & reliable shipping nationwide" />
                                 <IconContainer label="Friendly support, always ready to help" />
                             </div>
-                            <Link to="/about" className="pt-2">
+                            <Link to={goToLink} className="pt-2">
                                 <Button className="bg-primary text-white transition-colors duration-300 hover:bg-primary/80">
-                                    More About Us
+                                    {btnLabel}
                                 </Button>
                             </Link>
                         </div>

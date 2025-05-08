@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import products from "../../../constants/products";
@@ -5,11 +6,10 @@ import Heading from "../../ui/Heading";
 import ProductPreview from "../../ui/ProductPreview";
 import Paragraph from "../../ui/Paragraph";
 import Image from "../../ui/Image";
+import Button from "../../ui/Button";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import { Link } from "react-router-dom";
-import Button from "../../ui/Button";
 
 const LatestProducts = () => {
     return (

@@ -1,23 +1,49 @@
-import { Link } from "react-router-dom";
-import useReactRouterBreadcrumbs from "use-react-router-breadcrumbs";
+import { Link, useLocation } from "react-router-dom";
+import useBreadcrumbs from "use-react-router-breadcrumbs";
+
+const routes = [
+    { path: "/", breadcrumb: "Home" },
+    { path: "/products", breadcrumb: "Products" },
+    { path: "/products/:id", breadcrumb: "Details" },
+];
 
 const Breadcrumbs = () => {
-    const breadcrumbs = useReactRouterBreadcrumbs();
+    const breadcrumbs = useBreadcrumbs(routes);
+    const location = useLocation();
+
     return (
-        <div className="bg-secondary">
+        <nav className="bg-accent">
             <div className="container p-4">
-                <div className="flex gap-4">
-                    {breadcrumbs.map(({ breadcrumb }) => {
-                        console.log("hello ", breadcrumb);
+                <div className="flex items-center gap-2">
+                    {breadcrumbs.map(({ match, breadcrumb }, index) => {
+                        const isLast = match.pathname === location.pathname;
+
                         return (
-                            <Link to={breadcrumb.key} key={breadcrumb.key}>
-                                {breadcrumb}
-                            </Link>
+                            <span
+                                key={match.pathname}
+                                className="flex items-center gap-2"
+                            >
+                                {!isLast ? (
+                                    <Link
+                                        to={match.pathname}
+                                        className="text-primary hover:text-primary/80"
+                                    >
+                                        {breadcrumb}
+                                    </Link>
+                                ) : (
+                                    <span className="text-white cursor-default">
+                                        {breadcrumb}
+                                    </span>
+                                )}
+                                {index < breadcrumbs.length - 1 ? (
+                                    <span className="text-white">/</span>
+                                ) : null}
+                            </span>
                         );
                     })}
                 </div>
             </div>
-        </div>
+        </nav>
     );
 };
 

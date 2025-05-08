@@ -10,7 +10,7 @@ const Home = () => {
         <div className="">
             <Banner />
             {/* <TopCategories /> */}
-            <AboutIntro />
+            <AboutIntro btnLabel="More About Us" goToLink="/about"/>
             <LatestProducts />
             <ClientFeedbacks />
             <OurBrands />

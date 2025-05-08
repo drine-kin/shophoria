@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import Heading from "../../ui/Heading";
+import Image from "../../ui/Image";
+import Button from "../../ui/Button";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import Image from "../../ui/Image";
-import { Link } from "react-router-dom";
-import Button from "../../ui/Button";
 
 const OurBrands = () => {
     return (
