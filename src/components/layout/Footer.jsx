@@ -5,6 +5,27 @@ import socialLinks from "../../constants/socialLinks";
 import Heading from "../ui/Heading";
 import Paragraph from "../ui/Paragraph";
 
+const IconLabelContainer = ({ item }) => {
+    return (
+        <li key={item.label}>
+            <Link
+                key={item.label}
+                to={item.href}
+                className="flex gap-2 items-center "
+            >
+                <Paragraph
+                    className={`w-6 h-6 flex justify-center items-center text-secondary`}
+                >
+                    {<item.icon size={24} />}
+                </Paragraph>
+                <Paragraph className="font-light break-all text-white transition-colors duration-300 hover:text-primary">
+                    {item.label}
+                </Paragraph>
+            </Link>
+        </li>
+    );
+};
+
 const Footer = () => {
     return (
         <footer className="bg-accent text-white py-8">
@@ -47,24 +68,9 @@ const Footer = () => {
                             Contact Us
                         </Heading>
                         <ul className="space-y-4">
-                            {contactInfo.map((item) => (
-                                <li key={item.label}>
-                                    <Link
-                                        key={item.label}
-                                        to={item.href}
-                                        className="flex gap-2 items-center "
-                                    >
-                                        <Paragraph
-                                            className={`w-6 h-6 flex justify-center items-center text-secondary`}
-                                        >
-                                            {<item.icon size={24} />}
-                                        </Paragraph>
-                                        <Paragraph className="font-light break-all text-white transition-colors duration-300 hover:text-primary">
-                                            {item.label}
-                                        </Paragraph>
-                                    </Link>
-                                </li>
-                            ))}
+                            <IconLabelContainer item={contactInfo.address}/>
+                            <IconLabelContainer item={contactInfo.email}/>
+                            <IconLabelContainer item={contactInfo.phone}/>
                         </ul>
                     </div>
                 </div>

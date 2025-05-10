@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
-            <main>{children}</main>
+            <main className="relative min-h-[calc(100vh-80px)]">{children}</main>
             <Footer />
             <Toaster
                 position="bottom-right"
@@ -18,6 +18,9 @@ const Layout = ({ children }) => {
                             secondary: "#fff",
                         },
                     },
+                    error: {
+                        duration: 3000,
+                    }
                 }}
             />
         </div>

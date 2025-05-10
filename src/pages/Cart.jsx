@@ -7,9 +7,11 @@ import useCartStore from "../store/cartStore";
 const Cart = () => {
     const items = useCartStore((state) => state.items);
 
-    const subtotal = items.reduce((sum, item) => {
-        return sum + item.price * item.quantity;
-    }, 0).toFixed(2);
+    const subtotal = items
+        .reduce((sum, item) => {
+            return sum + item.price * item.cartQty;
+        }, 0)
+        .toFixed(2);
 
     return (
         <div className="bg-surface">
@@ -55,7 +57,7 @@ const Cart = () => {
                                 </div>
                                 <div className="w-full md:w-1/12"></div>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-4 pt-4">
                                 {items.map((item, idx) => (
                                     <CartPreview
                                         key={item.id}

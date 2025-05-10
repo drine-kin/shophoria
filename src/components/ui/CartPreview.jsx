@@ -17,16 +17,16 @@ const CartPreview = ({ item, className }) => {
     const removeFromCart = useCartStore((state) => state.removeFromCart);
 
     const handleDecreaseQty = () => {
-        const newQuantity = currentItem.quantity - 1;
+        const newQuantity = currentItem.cartQty - 1;
         if (newQuantity) {
-            addToCart({ ...currentItem, quantity: newQuantity });
+            addToCart({ ...currentItem, cartQty: newQuantity });
         }
     };
 
     const handleIncreaseQty = () => {
-        const newQuantity = currentItem.quantity + 1;
+        const newQuantity = currentItem.cartQty + 1;
         if (newQuantity) {
-            addToCart({ ...currentItem, quantity: newQuantity });
+            addToCart({ ...currentItem, cartQty: newQuantity });
         }
     };
 
@@ -39,13 +39,20 @@ const CartPreview = ({ item, className }) => {
         <>
             <div className={`hidden md:flex items-center gap-4 ${className}`}>
                 <div className="w-full md:w-5/12 flex items-center gap-2 space-y-4">
-                    <Image
-                        src={item.images?.[0]}
-                        alt={item.title}
-                        className="w-32 h-32 lg:w-44 lg:h-44"
-                    />
+                    <div className="w-32 lg:w-44 aspect-square">
+                        <Image
+                            src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
+                            onError={(e) => {
+                                e.target.onerror = null; // Prevent infinite loop
+                                e.target.src =
+                                    "https://dummyjson.com/image/300x200";
+                            }}
+                            alt={item.name}
+                            className="w-full h-full object-cover rounded-md"
+                        />
+                    </div>
                     <Heading as="h3" className="font-normal text-base px-4">
-                        {item.title}
+                        {item.name}
                     </Heading>
                 </div>
                 <div className="w-full md:w-2/12">
@@ -61,7 +68,7 @@ const CartPreview = ({ item, className }) => {
                         <HiOutlineMinusSmall size={20} />
                     </div>
                     <Paragraph className="text-accent font-medium bg-transparent outline-none w-7 text-center">
-                        {currentItem.quantity}
+                        {currentItem.cartQty}
                     </Paragraph>
                     <div
                         className="w-6 h-6 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"
@@ -72,7 +79,7 @@ const CartPreview = ({ item, className }) => {
                 </div>
                 <div className="w-full md:w-2/12">
                     <Paragraph className="text-primary font-medium">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        ${(item.price * item.cartQty).toFixed(2)}
                     </Paragraph>
                 </div>
                 <div className="w-full md:w-1/12">
@@ -87,15 +94,22 @@ const CartPreview = ({ item, className }) => {
             <div className={`flex md:hidden items-center gap-4 ${className}`}>
                 <div className="flex justify-between items-center gap-4 w-full">
                     <div className="w-1/3">
-                        <Image
-                            src={item.images?.[0]}
-                            alt={item.title}
-                            className="md:w-32 md:h-32 lg:w-44 lg:h-44"
-                        />
+                        <div className="w-32 lg:w-44 aspect-square">
+                            <Image
+                                src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
+                                onError={(e) => {
+                                    e.target.onerror = null; // Prevent infinite loop
+                                    e.target.src =
+                                        "https://dummyjson.com/image/300x200";
+                                }}
+                                alt={item.name}
+                                className="w-full h-full object-cover rounded-md"
+                            />
+                        </div>
                     </div>
                     <div className="w-2/3 flex flex-col space-y-3">
                         <Heading as="h3" className="font-normal text-sm">
-                            {item.title}
+                            {item.name}
                         </Heading>
                         <div className="flex flex-wrap justify-between items-center gap-2">
                             <Paragraph className="text-accent text-xs">
@@ -109,7 +123,7 @@ const CartPreview = ({ item, className }) => {
                                     <HiOutlineMinusSmall size={20} />
                                 </div>
                                 <Paragraph className="text-accent font-medium bg-transparent outline-none w-5 text-center">
-                                    {currentItem.quantity}
+                                    {currentItem.cartQty}
                                 </Paragraph>
                                 <div
                                     className="w-5 h-5 cursor-pointer flex justify-center items-center text-accent bg-secondary transition-colors duration-300 hover:bg-primary border border-accent rounded-full"

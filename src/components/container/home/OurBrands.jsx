@@ -2,8 +2,16 @@ import { Link } from "react-router-dom";
 import Heading from "../../ui/Heading";
 import Image from "../../ui/Image";
 import Button from "../../ui/Button";
+import { useBrands } from "../../../hooks/queries";
+import BrandList from "../../ui/BrandList";
+import Paragraph from "../../ui/Paragraph";
+import PageContainer from "../../custom/PageContainer";
 
 const OurBrands = () => {
+    const { data, isLoading, error } = useBrands(1);
+
+    const brands = data?.data;
+
     return (
         <div className="bg-primary py-8">
             <div className="container space-y-6">
@@ -17,24 +25,14 @@ const OurBrands = () => {
                         </Button>
                     </Link>
                 </div>
-                <div className="bg-white rounded-md px-8 py-4">
-                    <div className="flex flex-wrap -mx-3">
-                        {Array(5)
-                            .fill(0)
-                            .map((item, idx) => (
-                                <Link
-                                    to={`/brands/${idx + 1}`}
-                                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-3"
-                                    key={idx}
-                                >
-                                    <Image
-                                        src="https://dummyjson.com/image/300x200"
-                                        alt={idx}
-                                        className="rounded-md w-full h-full transition-transform duration-300 hover:scale-105"
-                                    />
-                                </Link>
-                            ))}
-                    </div>
+                <div className="bg-white rounded-md px-6 py-4">
+                    <PageContainer isLoading={isLoading} error={error}>
+                        {brands && brands.length > 0 ? (
+                            <BrandList brands={brands.slice(0, 5)} hideLabel />
+                        ) : (
+                            <Paragraph>No record found.</Paragraph>
+                        )}
+                    </PageContainer>
                 </div>
             </div>
         </div>

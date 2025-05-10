@@ -1,13 +1,13 @@
 const Button = ({
     children,
     className = "",
-    ...props
+    ...rest
 }) => {
 
     return (
         <button
             className={`rounded font-medium transition duration-200 focus:outline-none px-4 py-2 text-base ${className}`}
-            {...props}
+            {...rest}
         >
             {children}
         </button>

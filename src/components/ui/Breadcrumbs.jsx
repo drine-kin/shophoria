@@ -4,6 +4,7 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 const routes = [
     { path: "/", breadcrumb: "Home" },
     { path: "/products", breadcrumb: "Products" },
+    { path: "/shop", breadcrumb: "Shop" },
     { path: "/products/:id", breadcrumb: "Details" },
 ];
 
@@ -11,12 +12,16 @@ const Breadcrumbs = () => {
     const breadcrumbs = useBreadcrumbs(routes);
     const location = useLocation();
 
+    const searchParams = new URLSearchParams(location.search);
+    const categoryOrBrand =
+        searchParams.get("subcategory_name") || searchParams.get("brand_name");
+
     return (
         <nav className="bg-accent">
             <div className="container p-4">
                 <div className="flex items-center gap-2">
                     {breadcrumbs.map(({ match, breadcrumb }, index) => {
-                        const isLast = match.pathname === location.pathname;
+                        const isLast = match.pathname === location.pathname && !categoryOrBrand;
 
                         return (
                             <span
@@ -41,6 +46,15 @@ const Breadcrumbs = () => {
                             </span>
                         );
                     })}
+
+                    {categoryOrBrand && (
+                        <>
+                            <span className="text-white">/</span>
+                            <span className="text-white capitalize">
+                                {categoryOrBrand}
+                            </span>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

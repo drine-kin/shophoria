@@ -1,7 +1,7 @@
 import AboutIntro from "../components/container/home/AboutIntro";
 import Banner from "../components/container/home/Banner";
+import OurProducts from "../components/container/home/OurProducts";
 import ClientFeedbacks from "../components/container/home/ClientFeedbacks";
-import LatestProducts from "../components/container/home/LatestProducts";
 import OurBrands from "../components/container/home/OurBrands";
 import TopCategories from "../components/container/home/TopCategories";
 
@@ -11,7 +11,7 @@ const Home = () => {
             <Banner />
             {/* <TopCategories /> */}
             <AboutIntro btnLabel="More About Us" goToLink="/about"/>
-            <LatestProducts />
+            <OurProducts />
             <ClientFeedbacks />
             <OurBrands />
         </div>

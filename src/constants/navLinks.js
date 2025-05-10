@@ -4,7 +4,7 @@ const navLinks = [
     { label: "Shop", href: "/shop" },
     // { label: "Categories", href: "/categories" },
     { label: "Brands", href: "/brands" },
-    // { label: "Blogs", href: "/blogs" },
+    { label: "Contact", href: "/contact" },
 ];
 
 export default navLinks;

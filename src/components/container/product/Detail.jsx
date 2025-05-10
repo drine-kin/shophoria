@@ -77,7 +77,11 @@ const Detail = () => {
                 <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-16">
                     <div className="w-full md:w-1/2">
                         <Image
-                            src={"https://dummyjson.com/image/600x600"}
+                            src={`${import.meta.env.VITE_API_URL}/download/${product.logo}`}
+                            onError={(e) => {
+                                e.target.onerror = null; // Prevent infinite loop
+                                e.target.src = "https://dummyjson.com/image/300x200";
+                            }}
                             alt={product.name}
                             className="object-cover w-full h-auto lg:h-[450px] border rounded-md"
                         />

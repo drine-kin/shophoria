@@ -42,43 +42,30 @@ const ProductPreview = ({ item }) => {
     };
 
     const handleAddToCart = () => {
-        const {
-            id,
-            title,
-            brand,
-            category,
-            price,
-            discountPercentage,
-            availabilityStatus,
-            images,
-        } = item;
-
-        addToCart({
-            id,
-            title,
-            brand,
-            category,
-            price,
-            discountPercentage,
-            availabilityStatus,
-            images,
-            quantity: qty,
-        });
-        toast.success("Added to cart successfully")
+        addToCart({...item, cartQty: qty});
+        toast.success("Added to cart successfully");
+        navigate("/cart")
         setQty(1);
     };
 
     return (
         <article className="bg-white rounded-md overflow-hidden transition-transform duration-300 hover:scale-[1.01]">
             <div className="relative">
-                <Image
-                    src={item.images?.[0]}
-                    className="w-auto h-60 m-auto cursor-pointer"
-                    alt={item.title}
-                    onClick={() => {
-                        navigate(`/products/${item.id}`);
-                    }}
-                />
+                <div className="m-auto cursor-pointer">
+                    <Image
+                        src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
+                        onError={(e) => {
+                            e.target.onerror = null; // Prevent infinite loop
+                            e.target.src =
+                                "https://dummyjson.com/image/300x200";
+                        }}
+                        className="w-full h-full object-cover"
+                        alt={item.title}
+                        onClick={() => {
+                            navigate(`/products/${item.id}`);
+                        }}
+                    />
+                </div>
                 <Link
                     to="/login"
                     className="absolute top-4 right-4 cursor-pointer text-primary transition-transform duration-500 hover:scale-125"
@@ -92,7 +79,7 @@ const ProductPreview = ({ item }) => {
                         as="h2"
                         className="text-white font-light text-lg truncate"
                     >
-                        {item.title}
+                        {item.name}
                     </Heading>
                 </Link>
 
