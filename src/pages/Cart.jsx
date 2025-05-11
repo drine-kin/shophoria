@@ -21,7 +21,7 @@ const Cart = () => {
             <Breadcrumbs />
             <div className="bg-surface">
                 <div className="container py-8 space-y-8">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-wrap justify-between items-center gap-3">
                         <Heading as="h2" className="text-accent font-medium">
                             Shopping Cart {`(${items.length})`}
                         </Heading>
