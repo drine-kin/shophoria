@@ -77,7 +77,7 @@ const Orders = () => {
                 <div className="w-full overflow-x-auto">
                     <div className="space-y-4">
                         <PageContainer isLoading={isLoading} error={isError}>
-                            {orders.length > 0 ? (
+                            {orders?.length > 0 ? (
                                 <div className="relative overflow-x-auto space-y-8 ">
                                     <table className="w-full text-left rounded-md shadow-sm border border-spacing-0 border-collapse overflow-hidden">
                                         <thead className="text-white uppercase text-sm bg-primary">
