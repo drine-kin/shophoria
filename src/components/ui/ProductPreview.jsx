@@ -42,9 +42,9 @@ const ProductPreview = ({ item }) => {
     };
 
     const handleAddToCart = () => {
-        addToCart({...item, cartQty: qty});
+        addToCart({ ...item, cartQty: qty });
         toast.success("Added to cart successfully");
-        navigate("/cart")
+        navigate("/cart");
         setQty(1);
     };
 
@@ -53,7 +53,9 @@ const ProductPreview = ({ item }) => {
             <div className="relative">
                 <div className="w-full aspect-square m-auto cursor-pointer">
                     <Image
-                        src={`${import.meta.env.VITE_IMAGE_URL}/download/${item.logo}`}
+                        src={`${import.meta.env.VITE_IMAGE_URL}/download/${
+                            item.logo
+                        }`}
                         onError={(e) => {
                             e.target.onerror = null; // Prevent infinite loop
                             e.target.src =
@@ -77,7 +79,20 @@ const ProductPreview = ({ item }) => {
                     </Heading>
                 </Link>
 
-                <Paragraph className="text-white">{item.price} MMK</Paragraph>
+                {item.discount ? (
+                    <div className="flex gap-2">
+                        <Paragraph className="text-white font-medium line-through">
+                            {item.price} MMK
+                        </Paragraph>
+                        <Paragraph className="text-primary font-medium">
+                            {item.discount} MMK
+                        </Paragraph>
+                    </div>
+                ) : (
+                    <Paragraph className="text-primary font-medium">
+                        {item.price} MMK
+                    </Paragraph>
+                )}
                 <div className="flex flex-wrap justify-between items-center gap-4">
                     <div className="flex items-center gap-3">
                         <div
