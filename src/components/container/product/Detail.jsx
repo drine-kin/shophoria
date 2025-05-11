@@ -10,8 +10,8 @@ import Rating from "../../ui/Rating";
 import useCartStore from "../../../store/cartStore";
 
 const Detail = ({ data }) => {
-    const product = data?.data
-    
+    const product = data?.data;
+
     const [qty, setQty] = useState(1);
     const navigate = useNavigate();
     const addToCart = useCartStore((state) => state.addToCart);
@@ -87,9 +87,12 @@ const Detail = ({ data }) => {
                                 <Paragraph className="text-primary font-medium">
                                     ${product.price}
                                 </Paragraph>
-                                <Paragraph className="text-accent font-medium">
-                                    {product.description || "No Description"}
-                                </Paragraph>
+                                <div
+                                    className="text-accent font-medium"
+                                    dangerouslySetInnerHTML={{
+                                        __html: product.description || "No Description",
+                                    }}
+                                />
                                 <div className="flex items-center gap-2">
                                     <Paragraph className="text-accent font-medium">
                                         Category :

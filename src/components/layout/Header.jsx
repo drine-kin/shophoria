@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BsHandbag } from "react-icons/bs";
 import { GoPerson } from "react-icons/go";
-import { HiMenuAlt1, HiX } from "react-icons/hi";
+import {
+    HiChevronDown,
+    HiChevronRight,
+    HiChevronUp,
+    HiMenuAlt1,
+    HiX,
+} from "react-icons/hi";
 import { IoIosClose } from "react-icons/io";
 
 import navLinks from "../../constants/navLinks";
@@ -10,27 +16,47 @@ import Heading from "../ui/Heading";
 import useCartStore from "../../store/cartStore";
 import useAuthStore from "../../store/authStore";
 import Paragraph from "../ui/Paragraph";
+import { useCategories, useSubcategories } from "../../hooks/queries";
 
 const Header = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
+    const [showCatMenu, setShowCatMenu] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
+    const [showMobileCatMenu, setMobileCatMenu] = useState(false);
+    const [expandedCategoryId, setExpandedCategoryId] = useState(null);
+    const hideTimeoutRef = useRef(null);
     const userMenuRef = useRef(null);
+    const categoryRef = useRef(null);
     const navigate = useNavigate();
     const { user } = useAuthStore();
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
     const logout = useAuthStore((state) => state.logout);
     const itemsCount = useCartStore((state) => state.items.length);
 
+    const { data: categories } = useCategories();
+    const { data: subcategories } = useSubcategories();
+
+    const categoriesWithSubs =
+        categories && subcategories
+            ? categories.map((cat) => ({
+                  ...cat,
+                  subcategories: subcategories.filter(
+                      (sub) => sub.category_id === cat.id
+                  ),
+              }))
+            : [];
+
     useEffect(() => {
-        if (isMobileMenuOpen) {
+        if (showMobileMenu) {
             document.body.classList.add("overflow-y-hidden");
         } else {
             document.body.classList.remove("overflow-y-hidden");
         }
-    }, [isMobileMenuOpen]);
+    }, [showMobileMenu]);
 
     const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
+        setShowMobileMenu(!showMobileMenu);
     };
 
     const handleUserMenuToggle = () => {
@@ -38,9 +64,17 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        setIsMobileMenuOpen(false)
+        setShowMobileMenu(false);
         logout();
         navigate("/");
+    };
+
+    const handleCatMenu = () => {
+        setShowCatMenu((prev) => !prev);
+    };
+
+    const handleMobileCatMenu = () => {
+        setMobileCatMenu((prev) => !prev);
     };
 
     useEffect(() => {
@@ -50,6 +84,22 @@ const Header = () => {
                 !userMenuRef.current.contains(event.target)
             ) {
                 setShowUserMenu(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                categoryRef.current &&
+                !categoryRef.current.contains(event.target)
+            ) {
+                setShowCatMenu(false);
+                setHoveredCategoryId(false);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -73,22 +123,137 @@ const Header = () => {
                         <ul className="flex gap-8 justify-between items-center text-white">
                             {navLinks.map((item) => (
                                 <li key={item.label} className="relative">
-                                    <NavLink
-                                        to={item.href}
-                                        end={item.href === "/"}
-                                        className={({ isActive }) =>
-                                            `text-lg font-light hover:text-secondary transition-colors duration-200 ${
-                                                isActive
-                                                    ? "text-secondary"
-                                                    : "text-white"
-                                            }`
-                                        }
-                                    >
-                                        {item.label}
-                                    </NavLink>
+                                    {item.hasChildren ? (
+                                        <button
+                                            onClick={handleCatMenu}
+                                            className="text-lg font-light text-white hover:text-secondary transition-colors duration-200"
+                                        >
+                                            <div className="flex items-center gap-1">
+                                                {item.label}
+                                                {showCatMenu ? (
+                                                    <HiChevronUp />
+                                                ) : (
+                                                    <HiChevronDown />
+                                                )}
+                                            </div>
+                                        </button>
+                                    ) : (
+                                        <NavLink
+                                            to={item.href}
+                                            end={item.href === "/"}
+                                            className={`text-lg font-light hover:text-secondary transition-colors duration-200 `}
+                                        >
+                                            {item.label}
+                                        </NavLink>
+                                    )}
+                                    {item.hasChildren && showCatMenu ? (
+                                        <div className="absolute top-full left-0 mt-3 w-52 z-50 transform">
+                                            <ul
+                                                className=" bg-white rounded-lg shadow-lg p-1 py-2 z-50 transition-all duration-300 ease-in-out transform"
+                                                ref={categoryRef}
+                                            >
+                                                {categoriesWithSubs.length >
+                                                1 ? (
+                                                    <>
+                                                        {categoriesWithSubs.map(
+                                                            (cat) => (
+                                                                <li
+                                                                    key={cat.id}
+                                                                    className="relative"
+                                                                    onMouseEnter={() => {
+                                                                        if (
+                                                                            hideTimeoutRef.current
+                                                                        )
+                                                                            clearTimeout(
+                                                                                hideTimeoutRef.current
+                                                                            );
+                                                                        setHoveredCategoryId(
+                                                                            cat.id
+                                                                        );
+                                                                    }}
+                                                                    onMouseLeave={() => {
+                                                                        hideTimeoutRef.current =
+                                                                            setTimeout(
+                                                                                () => {
+                                                                                    setHoveredCategoryId(
+                                                                                        null
+                                                                                    );
+                                                                                },
+                                                                                300
+                                                                            );
+                                                                    }}
+                                                                >
+                                                                    <div className="w-full flex justify-between items-center px-4 py-2 space-y-1 rounded-md text-accent hover:bg-primary hover:text-white">
+                                                                        <Paragraph className="font-medium text-sm text-inherit">
+                                                                            {
+                                                                                cat.name
+                                                                            }
+                                                                        </Paragraph>
+                                                                        {cat
+                                                                            .subcategories
+                                                                            .length >
+                                                                        0 ? (
+                                                                            <HiChevronRight
+                                                                                size={
+                                                                                    20
+                                                                                }
+                                                                            />
+                                                                        ) : null}
+                                                                    </div>
+
+                                                                    {cat
+                                                                        .subcategories
+                                                                        .length >
+                                                                        0 &&
+                                                                        hoveredCategoryId ===
+                                                                            cat.id && (
+                                                                            <ul className="absolute left-full top-0 p-1 ml-2 w-52 bg-white rounded-md shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform">
+                                                                                {cat.subcategories.map(
+                                                                                    (
+                                                                                        sub
+                                                                                    ) => (
+                                                                                        <Link
+                                                                                            key={
+                                                                                                sub.id
+                                                                                            }
+                                                                                            to={`/shop?category_id=${cat.id}&subcategory_id=${sub.id}&subcategory_name=${sub.name}`}
+                                                                                            className="block px-4 py-2.5 text-sm text-accent hover:bg-primary hover:text-white rounded-md cursor-pointer"
+                                                                                            onClick={() => {
+                                                                                                setShowCatMenu(
+                                                                                                    false
+                                                                                                );
+                                                                                                setHoveredCategoryId(
+                                                                                                    false
+                                                                                                );
+                                                                                            }}
+                                                                                        >
+                                                                                            <Paragraph className="font-medium text-sm text-inherit">
+                                                                                                {
+                                                                                                    sub.name
+                                                                                                }
+                                                                                            </Paragraph>
+                                                                                        </Link>
+                                                                                    )
+                                                                                )}
+                                                                            </ul>
+                                                                        )}
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <Paragraph>
+                                                        Failed to load
+                                                        Categories
+                                                    </Paragraph>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    ) : null}
                                 </li>
                             ))}
                         </ul>
+
                         <div
                             className="flex items-center gap-6 relative"
                             ref={userMenuRef}
@@ -124,9 +289,11 @@ const Header = () => {
                                     >
                                         <NavLink
                                             to="/orders"
-                                            onClick={() => setShowUserMenu(false)}
+                                            onClick={() =>
+                                                setShowUserMenu(false)
+                                            }
                                             className={({ isActive }) =>
-                                                `block px-4 py-2 hover:bg-primary hover:text-white transition-colors duration-200 ${
+                                                `block px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors duration-200 ${
                                                     isActive
                                                         ? "bg-primary text-white"
                                                         : "text-gray-800"
@@ -137,7 +304,7 @@ const Header = () => {
                                         </NavLink>
                                         <button
                                             onClick={handleLogout}
-                                            className={`w-full text-left px-4 py-2 hover:bg-primary hover:text-white transition-colors duration-200`}
+                                            className={`w-full text-left px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors duration-200`}
                                         >
                                             Logout
                                         </button>
@@ -165,7 +332,7 @@ const Header = () => {
                         className="lg:hidden text-white font-light hover:text-primary focus:outline-none transition-colors duration-200"
                         onClick={toggleMobileMenu}
                     >
-                        {isMobileMenuOpen ? (
+                        {showMobileMenu ? (
                             <IoIosClose size={24} />
                         ) : (
                             <HiMenuAlt1 size={24} />
@@ -175,8 +342,8 @@ const Header = () => {
 
                 {/* Mobile Navigation */}
                 <div
-                    className={`fixed lg:hidden top-0 left-0 w-full h-screen bg-primary transition-all duration-300 ease-in-out transform ${
-                        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+                    className={`fixed lg:hidden top-0 left-0 w-full h-screen overflow-y-auto bg-primary transition-all duration-300 ease-in-out transform ${
+                        showMobileMenu ? "translate-x-0" : "-translate-x-full"
                     }`}
                 >
                     <div className="container py-4">
@@ -194,21 +361,133 @@ const Header = () => {
                         <ul className="flex flex-col text-white space-y-2">
                             {navLinks.map((item) => (
                                 <li key={item.label}>
-                                    <NavLink
-                                        to={item.href}
-                                        className={({ isActive }) =>
-                                            `font-light text-base py-2 hover:text-primary transition-colors duration-200 ${
-                                                isActive
-                                                    ? "text-secondary"
-                                                    : "text-white"
-                                            }`
-                                        }
-                                        onClick={() =>
-                                            setIsMobileMenuOpen(false)
-                                        }
-                                    >
-                                        {item.label}
-                                    </NavLink>
+                                    {item.hasChildren ? (
+                                        <div
+                                            className="flex items-center gap-2"
+                                            onClick={handleMobileCatMenu}
+                                        >
+                                            <Paragraph className="text-white">
+                                                {item.label}
+                                            </Paragraph>
+                                            {showMobileCatMenu ? (
+                                                <HiChevronUp size={18} />
+                                            ) : (
+                                                <HiChevronDown size={18} />
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <NavLink
+                                            to={item.href}
+                                            className={({ isActive }) =>
+                                                `font-light text-base py-2 duration-200 ${
+                                                    isActive
+                                                        ? "text-secondary"
+                                                        : "text-white"
+                                                }`
+                                            }
+                                            onClick={() =>
+                                                setShowMobileMenu(false)
+                                            }
+                                        >
+                                            {item.label}
+                                        </NavLink>
+                                    )}
+                                    {item.hasChildren && showMobileCatMenu ? (
+                                        <div className="pt-2">
+                                            {categoriesWithSubs.length > 0 ? (
+                                                <ul className="flex flex-col space-y-1">
+                                                    {categoriesWithSubs.map(
+                                                        (cat) => (
+                                                            <li key={cat.id}>
+                                                                <div
+                                                                    className="w-full text-left text-sm font-light text-white px-2 py-1 rounded-md"
+                                                                    onClick={() => {
+                                                                        if (
+                                                                            hideTimeoutRef.current
+                                                                        )
+                                                                            clearTimeout(
+                                                                                hideTimeoutRef.current
+                                                                            );
+                                                                        setExpandedCategoryId(
+                                                                            cat.id
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <div className="flex justify-between items-center">
+                                                                        <Paragraph className="text-sm text-inherit">
+                                                                            {
+                                                                                cat.name
+                                                                            }
+                                                                        </Paragraph>
+                                                                        {cat
+                                                                            .subcategories
+                                                                            .length >
+                                                                        0 ? (
+                                                                            <>
+                                                                                {expandedCategoryId ===
+                                                                                cat.id ? (
+                                                                                    <HiChevronUp
+                                                                                        size={
+                                                                                            20
+                                                                                        }
+                                                                                    />
+                                                                                ) : (
+                                                                                    <HiChevronDown
+                                                                                        size={
+                                                                                            20
+                                                                                        }
+                                                                                    />
+                                                                                )}
+                                                                            </>
+                                                                        ) : null}
+                                                                    </div>
+                                                                </div>
+
+                                                                {expandedCategoryId ===
+                                                                    cat.id &&
+                                                                    cat
+                                                                        .subcategories
+                                                                        .length >
+                                                                        0 && (
+                                                                        <ul className="ml-4 mt-1 space-y-1">
+                                                                            {cat.subcategories.map(
+                                                                                (
+                                                                                    sub
+                                                                                ) => (
+                                                                                    <li
+                                                                                        key={
+                                                                                            sub.id
+                                                                                        }
+                                                                                    >
+                                                                                        <Link
+                                                                                            to={`/shop?category_id=${cat.id}&subcategory_id=${sub.id}&subcategory_name=${sub.name}`}
+                                                                                            className="block font-light text-sm text-white px-2 py-1 rounded-md hover:bg-primary"
+                                                                                            onClick={() =>
+                                                                                                setShowMobileMenu(
+                                                                                                    false
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                sub.name
+                                                                                            }
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                )
+                                                                            )}
+                                                                        </ul>
+                                                                    )}
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            ) : (
+                                                <Paragraph className="text-sm text-white">
+                                                    Failed to load categories
+                                                </Paragraph>
+                                            )}
+                                        </div>
+                                    ) : null}
                                 </li>
                             ))}
                         </ul>
@@ -217,7 +496,7 @@ const Header = () => {
                                 className="relative text-white cursor-pointer transition-transform duration-300 hover:text-secondary"
                                 onClick={() => {
                                     navigate("/cart");
-                                    setIsMobileMenuOpen(false);
+                                    setShowMobileMenu(false);
                                 }}
                             >
                                 <BsHandbag size={20} />
@@ -231,7 +510,7 @@ const Header = () => {
                                 <>
                                     <NavLink
                                         to="/orders"
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        onClick={() => setShowMobileMenu(false)}
                                         className={({ isActive }) =>
                                             `font-light text-base py-1 ${
                                                 isActive
@@ -252,7 +531,7 @@ const Header = () => {
                             ) : (
                                 <NavLink
                                     to="/login"
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    onClick={() => setShowMobileMenu(false)}
                                     className={({ isActive }) =>
                                         `pt-2 cursor-pointer hover:text-secondary transition-colors ${
                                             isActive
