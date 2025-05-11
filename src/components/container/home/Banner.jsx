@@ -14,15 +14,19 @@ const Banner = () => {
                             you need — all in one place.
                         </Heading>
                         <Link to="/shop" className="block">
-                            <Button className="bg-white text-accent transition-colors duration-300 hover:bg-accent hover:text-white">Shop Now</Button>
+                            <Button className="bg-white text-accent transition-colors duration-300 hover:bg-accent hover:text-white">
+                                Shop Now
+                            </Button>
                         </Link>
                     </div>
                     <div className="w-full md:w-1/2 hidden md:flex justify-center">
-                        <Image 
-                            src="/images/banner.png"
-                            alt="Banner Image"
-                            className="w-auto h-auto md:h-[400px] max-h-[400px] md:-mb-8"
-                        />
+                        <div className="w-full">
+                            <Image
+                                src="/images/home-banner.png"
+                                alt="Banner Image"
+                                className="w-auto h-auto object-cover md:-mb-8"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
