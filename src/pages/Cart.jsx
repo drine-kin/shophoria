@@ -92,7 +92,7 @@ const Cart = () => {
                                 </Heading>
                                 <div className="space-y-4 border-b pb-6">
                                     <div className="flex gap-4 justify-between items-center">
-                                        <div className="flex gap-1">
+                                        <div className="flex gap-1 flex-wrap">
                                             <Paragraph>Subtotal</Paragraph>
                                             <Paragraph>
                                                 (

@@ -67,7 +67,7 @@ const CartPreview = ({ item, className }) => {
                     >
                         <HiOutlineMinusSmall size={20} />
                     </div>
-                    <Paragraph className="text-accent font-medium bg-transparent outline-none w-7 text-center">
+                    <Paragraph className="text-accent font-medium bg-transparent outline-none w-7 text-center overflow-x-auto">
                         {currentItem.cartQty}
                     </Paragraph>
                     <div
