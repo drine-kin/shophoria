@@ -12,7 +12,7 @@ const Cart = () => {
 
     const subtotal = items
         .reduce((sum, item) => {
-            return sum + item.price * item.cartQty;
+            return sum + (item.discount || item.price) * item.cartQty;
         }, 0)
         .toFixed(2);
 

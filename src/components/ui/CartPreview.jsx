@@ -57,7 +57,7 @@ const CartPreview = ({ item, className }) => {
                 </div>
                 <div className="w-full md:w-2/12">
                     <Paragraph className="text-accent font-medium">
-                        {item.price} MMK
+                        {item.discount || item.price} MMK
                     </Paragraph>
                 </div>
                 <div className="w-full md:w-2/12 flex items-center gap-2">
@@ -79,7 +79,7 @@ const CartPreview = ({ item, className }) => {
                 </div>
                 <div className="w-full md:w-2/12">
                     <Paragraph className="text-primary font-medium">
-                        {(item.price * item.cartQty).toFixed(2)} MMK
+                        {(item.discount || item.price * item.cartQty).toFixed(2)} MMK
                     </Paragraph>
                 </div>
                 <div className="w-full md:w-1/12">
@@ -113,7 +113,7 @@ const CartPreview = ({ item, className }) => {
                         </Heading>
                         <div className="flex flex-wrap justify-between items-center gap-2">
                             <Paragraph className="text-accent text-xs">
-                                MMK{item.price}
+                                {item.price} MMK
                             </Paragraph>
                             <div className="flex justify-between items-center gap-2">
                                 <div
