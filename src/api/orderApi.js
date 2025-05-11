@@ -23,9 +23,9 @@ export const placeOrder = async (orderData, token) => {
     }
 };
 
-export const fetchOrders = async (page, token) => {
+export const fetchOrders = async (page, search, token) => {
     try {
-        const res = await axios.get(`${API_URL}/orders?page=${page}&limit=10`, {
+        const res = await axios.get(`${API_URL}/orders?page=${page}&${search ? `&search=${search}` : ""}&limit=10`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

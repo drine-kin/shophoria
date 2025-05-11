@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchOrders } from "../api/orderApi";
@@ -7,23 +8,54 @@ import useAuthStore from "../store/authStore";
 import PageContainer from "../components/custom/PageContainer";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import Pagination from "../components/ui/Pagination";
+import SearchForm from "../components/ui/SearchForm";
 
 const Orders = () => {
     const { token } = useAuthStore();
     const [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get("page") || "1", 10);
+    const [searchText, setSearchText] = useState(
+        searchParams.get("search") || ""
+    );
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["orders", page],
-        queryFn: () => fetchOrders(page, token),
+        queryKey: ["orders", page, searchText],
+        queryFn: () => fetchOrders(page, searchText, token),
     });
 
     const handlePageChange = (newPage) => {
         searchParams.set("page", newPage);
         setSearchParams(searchParams);
     };
+
+    const handleSearch = () => {
+        if (searchText.trim()) {
+            searchParams.set("search", searchText);
+            searchParams.set("page", 1);
+            setSearchParams(searchParams);
+        }
+    };
+
+    const onSearchChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
+    };
+
+    useEffect(() => {
+        if (!searchText) {
+            const newParams = new URLSearchParams(searchParams);
+            newParams.delete("search");
+            newParams.set("page", 1);
+            setSearchParams(newParams);
+        }
+    }, [searchText, searchParams, setSearchParams]);
 
     const orders = data?.data;
 
@@ -34,6 +66,14 @@ const Orders = () => {
                 <Heading as="h2" className="text-accent font-medium pb-6">
                     My Orders
                 </Heading>
+                <div className="flex justify-start pb-6">
+                    <SearchForm
+                        containerClass="w-full md:w-72"
+                        value={searchText}
+                        onChange={onSearchChange}
+                        onKeyDown={handleKeyPress}
+                    />
+                </div>
                 <div className="w-full overflow-x-auto">
                     <div className="space-y-4">
                         <PageContainer isLoading={isLoading} error={isError}>
@@ -90,7 +130,11 @@ const Orders = () => {
                                             {orders.map((order) => (
                                                 <tr
                                                     key={order.id}
-                                                    onClick={() => navigate(`/orders/${order.id}`)}
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/orders/${order.id}`
+                                                        )
+                                                    }
                                                     className="bg-white border-b cursor-pointer transition-all duration-100 hover:bg-primary hover:text-white"
                                                 >
                                                     <th
@@ -136,8 +180,8 @@ const Orders = () => {
                                             currentPage={page}
                                         />
                                         <Paragraph className="!font-medium">
-                                            Showing {data.meta.from} to {data.meta.to} of{" "}
-                                            {data.meta.total}
+                                            Showing {data.meta.from} to{" "}
+                                            {data.meta.to} of {data.meta.total}
                                         </Paragraph>
                                     </div>
                                 </div>

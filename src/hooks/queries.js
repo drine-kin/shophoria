@@ -14,10 +14,10 @@ export const useCategories = (pageSize) =>
 export const useSubcategories = () =>
     useQuery({ queryKey: ["subcategories"], queryFn: fetchSubCategories });
 
-export const useProducts = (page, subCategory, brand) =>
+export const useProducts = (page, subCategory, brand, search) =>
     useQuery({
-        queryKey: ["products", page, subCategory, brand],
-        queryFn: () => fetchProducts(page, subCategory, brand),
+        queryKey: ["products", page, subCategory, brand, search],
+        queryFn: () => fetchProducts(page, subCategory, brand, search),
     });
 
 export const useBrands = (page) =>
