@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import CartPreview from "../components/ui/CartPreview";
 import Heading from "../components/ui/Heading";
@@ -21,9 +21,16 @@ const Cart = () => {
             <Breadcrumbs />
             <div className="bg-surface">
                 <div className="container py-8 space-y-8">
-                    <Heading as="h2" className="text-accent font-medium">
-                        Shopping Cart {`(${items.length})`}
-                    </Heading>
+                    <div className="flex justify-between items-center">
+                        <Heading as="h2" className="text-accent font-medium">
+                            Shopping Cart {`(${items.length})`}
+                        </Heading>
+                        <Link to="/shop">
+                            <Button className="bg-primary text-white transition-colors duration-300 hover:bg-primary/80">
+                                Continue Shopping
+                            </Button>
+                        </Link>
+                    </div>
                     {items.length > 0 ? (
                         <div className="flex flex-wrap xl:flex-nowrap gap-8">
                             <div className="w-full xl:w-3/4 bg-white rounded-sm shadow-sm p-4 md:p-8">
@@ -95,7 +102,7 @@ const Cart = () => {
                                                 )
                                             </Paragraph>
                                         </div>
-                                        <Paragraph>${subtotal}</Paragraph>
+                                        <Paragraph>{subtotal} MMK</Paragraph>
                                     </div>
                                     <div className="flex gap-4 justify-between items-center">
                                         <div className="flex gap-1">
@@ -104,13 +111,13 @@ const Cart = () => {
                                             </Paragraph>
                                         </div>
                                         <Paragraph className="font-medium">
-                                            ${subtotal}
+                                            {subtotal} MMK
                                         </Paragraph>
                                     </div>
                                 </div>
                                 <div className="pt-2 flex justify-end xl:justify-center">
                                     <Button
-                                        className="bg-primary text-white w-full sm:w-auto xl:w-full"
+                                        className="bg-primary text-white w-full sm:w-auto xl:w-full hover:bg-primary/80"
                                         onClick={() => {
                                             navigate("/confirm");
                                         }}

@@ -9,13 +9,13 @@ const contactInfo = {
     },
     email: {
         icon: HiOutlineEnvelope,
-        label: "contact@shophoria.com",
-        href: "mailto:contact@shophoria.com",
+        label: "contact@thetriotails.com",
+        href: "mailto:contact@thetriotails.com",
     },
     phone: { 
         icon: HiOutlinePhone, 
-        label: "09 999999999", 
-        href: "tel:+959999999999" 
+        label: "09 978475562", 
+        href: "tel:+959978475562" 
     },
 };
 

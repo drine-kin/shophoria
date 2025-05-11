@@ -51,9 +51,9 @@ const ProductPreview = ({ item }) => {
     return (
         <article className="bg-white rounded-md overflow-hidden transition-transform duration-300 hover:scale-[1.01]">
             <div className="relative">
-                <div className="m-auto cursor-pointer">
+                <div className="w-full aspect-square m-auto cursor-pointer">
                     <Image
-                        src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
+                        src={`${import.meta.env.VITE_IMAGE_URL}/download/${item.logo}`}
                         onError={(e) => {
                             e.target.onerror = null; // Prevent infinite loop
                             e.target.src =
@@ -66,12 +66,6 @@ const ProductPreview = ({ item }) => {
                         }}
                     />
                 </div>
-                {/* <Link
-                    to="/login"
-                    className="absolute top-4 right-4 cursor-pointer text-primary transition-transform duration-500 hover:scale-125"
-                >
-                    <IoMdHeartEmpty size={28} />
-                </Link> */}
             </div>
             <div className="bg-accent p-4 space-y-2">
                 <Link to={`/products/${item.id}`}>
@@ -83,7 +77,7 @@ const ProductPreview = ({ item }) => {
                     </Heading>
                 </Link>
 
-                <Paragraph className="text-white">${item.price}</Paragraph>
+                <Paragraph className="text-white">{item.price} MMK</Paragraph>
                 <div className="flex flex-wrap justify-between items-center gap-4">
                     <div className="flex items-center gap-3">
                         <div

@@ -12,7 +12,7 @@ const About = () => {
                 <div className="container py-12">
                     <div className="w-[1000px] max-w-full mx-auto">
                         <Paragraph className="leading-relaxed">
-                            At Shophoria, we go beyond being just an ecommerce
+                            At The TRIO Tails, we go beyond being just an ecommerce
                             site — we are a community built on trust,
                             convenience, and a love for great products. From the
                             moment you land on our site to the time your package
@@ -29,7 +29,7 @@ const About = () => {
                             team is always just a click away — ready to help
                             with anything you need. Whether you're shopping for
                             essentials or treating yourself to something
-                            special, Shophoria is here to deliver quality you
+                            special, The TRIO Tails is here to deliver quality you
                             can count on.
                         </Paragraph>
                     </div>

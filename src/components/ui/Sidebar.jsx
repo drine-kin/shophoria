@@ -93,7 +93,7 @@ export default function Sidebar() {
                                                         <Image
                                                             src={`${
                                                                 import.meta.env
-                                                                    .VITE_API_URL
+                                                                    .VITE_IMAGE_URL
                                                             }/download/${
                                                                 category.logo
                                                             }`}
@@ -146,7 +146,7 @@ export default function Sidebar() {
                                                                             src={`${
                                                                                 import.meta
                                                                                     .env
-                                                                                    .VITE_API_URL
+                                                                                    .VITE_IMAGE_URL
                                                                             }/download/${
                                                                                 sub.logo
                                                                             }`}

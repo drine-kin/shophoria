@@ -111,13 +111,13 @@ const ConfirmOrder = () => {
                                             {item.name} x {item.cartQty}
                                         </Paragraph>
                                         <Paragraph>
-                                            {item.price * item.cartQty} USD
+                                            {item.price * item.cartQty} MMK
                                         </Paragraph>
                                     </li>
                                 ))}
                             </ul>
                             <p className="text-right font-bold mt-4">
-                                Total: {total} USD
+                                Total: {total} MMK
                             </p>
                         </div>
 

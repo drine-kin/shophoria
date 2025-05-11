@@ -114,7 +114,7 @@ const Header = () => {
                 <div className="flex justify-between items-center">
                     <Link to="/">
                         <Heading as="h2" className="text-white font-light">
-                            SHOPHORIA
+                            The TRIO Tails
                         </Heading>
                     </Link>
 
@@ -354,7 +354,7 @@ const Header = () => {
                     <div className="container py-4">
                         <div className="flex justify-between items-center mb-6">
                             <Heading as="h2" className="text-white font-light">
-                                SHOPHORIA
+                                The TRIO Tails
                             </Heading>
                             <button
                                 className="text-white hover:text-primary focus:outline-none transition-colors duration-200"

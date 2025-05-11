@@ -57,18 +57,20 @@ const Detail = ({ data }) => {
                 {product ? (
                     <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-16">
                         <div className="w-full md:w-1/2">
-                            <Image
-                                src={`${
-                                    import.meta.env.VITE_API_URL
-                                }/download/${product.logo}`}
-                                onError={(e) => {
-                                    e.target.onerror = null; // Prevent infinite loop
-                                    e.target.src =
-                                        "https://dummyjson.com/image/300x200";
-                                }}
-                                alt={product.name}
-                                className="object-cover w-full h-auto lg:h-[450px] border rounded-md"
-                            />
+                            <div className="w-[500px] max-w-full aspect-square m-auto">
+                                <Image
+                                    src={`${
+                                        import.meta.env.VITE_IMAGE_URL
+                                    }/download/${product.logo}`}
+                                    onError={(e) => {
+                                        e.target.onerror = null; // Prevent infinite loop
+                                        e.target.src =
+                                            "https://dummyjson.com/image/300x200";
+                                    }}
+                                    alt={product.name}
+                                    className="object-cover w-full h-full  border rounded-md"
+                                />
+                            </div>
                         </div>
                         <div className="w-full md:w-1/2">
                             <div className="flex flex-col space-y-3">
@@ -85,12 +87,14 @@ const Detail = ({ data }) => {
                                     {product.name}
                                 </Heading>
                                 <Paragraph className="text-primary font-medium">
-                                    ${product.price}
+                                    {product.price} MMK
                                 </Paragraph>
                                 <div
                                     className="text-accent font-medium"
                                     dangerouslySetInnerHTML={{
-                                        __html: product.description || "No Description",
+                                        __html:
+                                            product.description ||
+                                            "No Description",
                                     }}
                                 />
                                 <div className="flex items-center gap-2">

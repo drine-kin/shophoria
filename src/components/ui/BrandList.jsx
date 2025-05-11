@@ -11,15 +11,20 @@ const BrandList = ({ brands, hideLabel }) => {
                     className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-3 space-y-4"
                     key={idx}
                 >
-                    <Image
-                        src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
-                        onError={(e) => {
-                            e.target.onerror = null; // Prevent infinite loop
-                            e.target.src = "https://dummyjson.com/image/300x200";
-                        }}
-                        alt={idx}
-                        className="rounded-md w-full transition-transform duration-300 hover:scale-105"
-                    />
+                    <div className="w-full aspect-square border rounded-md shadow-sm">
+                        <Image
+                            src={`${import.meta.env.VITE_IMAGE_URL}/download/${
+                                item.logo
+                            }`}
+                            onError={(e) => {
+                                e.target.onerror = null; // Prevent infinite loop
+                                e.target.src =
+                                    "https://dummyjson.com/image/300x200";
+                            }}
+                            alt={idx}
+                            className="rounded-md w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        />
+                    </div>
                     {hideLabel ? null : <Paragraph>{item.name}</Paragraph>}
                 </Link>
             ))}

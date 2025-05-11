@@ -33,10 +33,10 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <Heading as="h3" className="text-xl font-bold mb-4">
-                            Shophoria
+                            The TRIO Tails
                         </Heading>
                         <Paragraph className="font-light text-white ">
-                            Shophoria is your one-stop online destination for
+                            The TRIO Tails is your one-stop online destination for
                             quality products, trusted brands, and a seamless
                             shopping experience.
                         </Paragraph>
@@ -78,7 +78,7 @@ const Footer = () => {
             <div className="mt-8 pt-6 pb-3 border-t-[0.5px] border-neutral-800">
                 <div className="container flex flex-col md:flex-row justify-between items-center space-y-4 ">
                     <Paragraph className="font-light text-white">
-                        © {new Date().getFullYear()} Shophoria. All rights
+                        © {new Date().getFullYear()} The TRIO Tails. All rights
                         reserved.
                     </Paragraph>
                     <div className="flex flex-wrap justify-between items-center gap-4">

@@ -49,7 +49,7 @@ const Orders = () => {
     };
 
     useEffect(() => {
-        if (!searchText) {
+        if (!searchText && searchParams.has("search")) {
             const newParams = new URLSearchParams(searchParams);
             newParams.delete("search");
             newParams.set("page", 1);
@@ -86,7 +86,7 @@ const Orders = () => {
                                                     scope="col"
                                                     className="px-6 py-3 whitespace-nowrap"
                                                 >
-                                                    Order ID
+                                                    No
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -127,7 +127,7 @@ const Orders = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {orders.map((order) => (
+                                            {orders.map((order, idx) => (
                                                 <tr
                                                     key={order.id}
                                                     onClick={() =>
@@ -139,9 +139,10 @@ const Orders = () => {
                                                 >
                                                     <th
                                                         scope="row"
-                                                        className="px-6 py-4 font-medium whitespace-nowrap"
+                                                        className="px-6 py-4 font-light whitespace-nowrap"
                                                     >
-                                                        {order.id}
+                                                        {/* {order.id} */}
+                                                        {page === 1 ? idx + 1 : data.meta.from + idx}
                                                     </th>
                                                     <td className="px-6 py-4 font-light whitespace-nowrap">
                                                         {order.voucher_no}
@@ -150,7 +151,7 @@ const Orders = () => {
                                                         {order.total_qty}
                                                     </td>
                                                     <td className="px-6 py-4 font-light ">
-                                                        ${order.total_amount}
+                                                        {order.total_amount} MMK
                                                     </td>
                                                     <td className="px-6 py-4font-light ">
                                                         {order.msg || "—"}

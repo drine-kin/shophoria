@@ -32,7 +32,7 @@ const AboutIntro = ({ btnLabel, goToLink }) => {
                                 About Us
                             </Heading>
                             <Paragraph>
-                                Discover a smarter way to shop at Shophoria,
+                                Discover a smarter way to shop at The TRIO Tails,
                                 where quality meets affordability. We bring
                                 top-rated products to your doorstep with ease
                                 and care.

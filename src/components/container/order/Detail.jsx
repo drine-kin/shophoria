@@ -47,7 +47,7 @@ const Detail = ({ data }) => {
                             />
                             <LabelValueContainer
                                 label={`Total Amount`}
-                                value={`$${order.total_amount}`}
+                                value={`${order.total_amount} MMK`}
                             />
                         </div>
 
@@ -85,7 +85,7 @@ const Detail = ({ data }) => {
                                         <div className="w-24 aspect-square flex-none">
                                             <Image
                                                 src={`${
-                                                    import.meta.env.VITE_API_URL
+                                                    import.meta.env.VITE_IMAGE_URL
                                                 }/download/${
                                                     product.product_logo
                                                 }`}
@@ -107,7 +107,7 @@ const Detail = ({ data }) => {
                                             </p>
                                         </div>
                                         <p className="text-primary font-semibold text-sm">
-                                            ${product.price}
+                                            {product.price} MMK
                                         </p>
                                     </div>
                                 ))}

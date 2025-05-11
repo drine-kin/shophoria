@@ -48,7 +48,7 @@ export default function ProductList() {
     };
 
     useEffect(() => {
-        if (!searchText) {
+        if (!searchText && searchParams.has("search")) {
             const newParams = new URLSearchParams(searchParams);
             newParams.delete("search");
             newParams.set("page", 1);

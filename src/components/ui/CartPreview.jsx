@@ -41,7 +41,7 @@ const CartPreview = ({ item, className }) => {
                 <div className="w-full md:w-5/12 flex items-center gap-2 space-y-4">
                     <div className="w-32 lg:w-44 aspect-square">
                         <Image
-                            src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
+                            src={`${import.meta.env.VITE_IMAGE_URL}/download/${item.logo}`}
                             onError={(e) => {
                                 e.target.onerror = null; // Prevent infinite loop
                                 e.target.src =
@@ -57,7 +57,7 @@ const CartPreview = ({ item, className }) => {
                 </div>
                 <div className="w-full md:w-2/12">
                     <Paragraph className="text-accent font-medium">
-                        ${item.price}
+                        {item.price} MMK
                     </Paragraph>
                 </div>
                 <div className="w-full md:w-2/12 flex items-center gap-2">
@@ -79,7 +79,7 @@ const CartPreview = ({ item, className }) => {
                 </div>
                 <div className="w-full md:w-2/12">
                     <Paragraph className="text-primary font-medium">
-                        ${(item.price * item.cartQty).toFixed(2)}
+                        {(item.price * item.cartQty).toFixed(2)} MMK
                     </Paragraph>
                 </div>
                 <div className="w-full md:w-1/12">
@@ -96,7 +96,7 @@ const CartPreview = ({ item, className }) => {
                     <div className="w-1/3">
                         <div className="w-32 lg:w-44 aspect-square">
                             <Image
-                                src={`${import.meta.env.VITE_API_URL}/download/${item.logo}`}
+                                src={`${import.meta.env.VITE_IMAGE_URL}/download/${item.logo}`}
                                 onError={(e) => {
                                     e.target.onerror = null; // Prevent infinite loop
                                     e.target.src =
@@ -113,7 +113,7 @@ const CartPreview = ({ item, className }) => {
                         </Heading>
                         <div className="flex flex-wrap justify-between items-center gap-2">
                             <Paragraph className="text-accent text-xs">
-                                ${item.price}
+                                MMK{item.price}
                             </Paragraph>
                             <div className="flex justify-between items-center gap-2">
                                 <div
