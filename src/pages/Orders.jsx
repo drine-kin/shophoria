@@ -66,7 +66,7 @@ const Orders = () => {
                 <Heading as="h2" className="text-accent font-medium pb-6">
                     My Orders
                 </Heading>
-                <div className="flex justify-start pb-6">
+                <div className="flex justify-end pb-6">
                     <SearchForm
                         containerClass="w-full md:w-72"
                         value={searchText}
@@ -135,7 +135,7 @@ const Orders = () => {
                                                             `/orders/${order.id}`
                                                         )
                                                     }
-                                                    className="bg-white border-b cursor-pointer transition-all duration-100 hover:bg-primary hover:text-white"
+                                                    className="bg-white border-b cursor-pointer transition-all duration-100 hover:bg-gray-100"
                                                 >
                                                     <th
                                                         scope="row"

@@ -147,9 +147,12 @@ const Header = () => {
                                         </NavLink>
                                     )}
                                     {item.hasChildren && showCatMenu ? (
-                                        <div className="absolute top-full left-0 mt-3 w-52 z-50 transform">
-                                            <ul
-                                                className=" bg-white rounded-lg shadow-lg p-1 py-2 z-50 transition-all duration-300 ease-in-out transform"
+                                        <div
+                                            className="overflow-scroll h-[90vh] w-[28rem] absolute top-full left-0 mt-3 z-50 transform"
+                                            style={{ scrollbarWidth: "none" }}
+                                        >
+                                            <div
+                                                className="bg-white rounded-lg w-48 shadow-lg p-1 py-2 z-50 transition-all duration-300 ease-in-out transform"
                                                 ref={categoryRef}
                                             >
                                                 {categoriesWithSubs.length >
@@ -157,7 +160,7 @@ const Header = () => {
                                                     <>
                                                         {categoriesWithSubs.map(
                                                             (cat) => (
-                                                                <li
+                                                                <div
                                                                     key={cat.id}
                                                                     className="relative"
                                                                     onMouseEnter={() => {
@@ -189,16 +192,18 @@ const Header = () => {
                                                                                 cat.name
                                                                             }
                                                                         </Paragraph>
-                                                                        {cat
-                                                                            .subcategories
-                                                                            .length >
-                                                                        0 ? (
-                                                                            <HiChevronRight
-                                                                                size={
-                                                                                    20
-                                                                                }
-                                                                            />
-                                                                        ) : null}
+                                                                        <div className="w-5 h-5">
+                                                                            {cat
+                                                                                .subcategories
+                                                                                .length >
+                                                                            0 ? (
+                                                                                <HiChevronRight
+                                                                                    size={
+                                                                                        20
+                                                                                    }
+                                                                                />
+                                                                            ) : null}
+                                                                        </div>
                                                                     </div>
 
                                                                     {cat
@@ -237,7 +242,7 @@ const Header = () => {
                                                                                 )}
                                                                             </ul>
                                                                         )}
-                                                                </li>
+                                                                </div>
                                                             )
                                                         )}
                                                     </>
@@ -247,7 +252,7 @@ const Header = () => {
                                                         Categories
                                                     </Paragraph>
                                                 )}
-                                            </ul>
+                                            </div>
                                         </div>
                                     ) : null}
                                 </li>
@@ -419,27 +424,29 @@ const Header = () => {
                                                                                 cat.name
                                                                             }
                                                                         </Paragraph>
-                                                                        {cat
-                                                                            .subcategories
-                                                                            .length >
-                                                                        0 ? (
-                                                                            <>
-                                                                                {expandedCategoryId ===
-                                                                                cat.id ? (
-                                                                                    <HiChevronUp
-                                                                                        size={
-                                                                                            20
-                                                                                        }
-                                                                                    />
-                                                                                ) : (
-                                                                                    <HiChevronDown
-                                                                                        size={
-                                                                                            20
-                                                                                        }
-                                                                                    />
-                                                                                )}
-                                                                            </>
-                                                                        ) : null}
+                                                                        <div className="w-5 h-5">
+                                                                            {cat
+                                                                                .subcategories
+                                                                                .length >
+                                                                            0 ? (
+                                                                                <>
+                                                                                    {expandedCategoryId ===
+                                                                                    cat.id ? (
+                                                                                        <HiChevronUp
+                                                                                            size={
+                                                                                                20
+                                                                                            }
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <HiChevronDown
+                                                                                            size={
+                                                                                                20
+                                                                                            }
+                                                                                        />
+                                                                                    )}
+                                                                                </>
+                                                                            ) : null}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
 

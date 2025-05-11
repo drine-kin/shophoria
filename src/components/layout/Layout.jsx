@@ -13,10 +13,6 @@ const Layout = ({ children }) => {
                 toastOptions={{
                     success: {
                         duration: 3000,
-                        iconTheme: {
-                            primary: "#E3462C",
-                            secondary: "#fff",
-                        },
                     },
                     error: {
                         duration: 3000,
