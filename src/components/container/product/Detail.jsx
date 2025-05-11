@@ -86,9 +86,22 @@ const Detail = ({ data }) => {
                                 <Heading as="h3" className="text-accent">
                                     {product.name}
                                 </Heading>
-                                <Paragraph className="text-primary font-medium">
-                                    {product.price} MMK
-                                </Paragraph>
+                                <div>
+                                    {product.discount ? (
+                                        <div className="flex gap-2">
+                                            <Paragraph className="text-accent font-medium line-through">
+                                                {product.price} MMK
+                                            </Paragraph>
+                                            <Paragraph className="text-primary font-medium">
+                                                {product.discount} MMK
+                                            </Paragraph> 
+                                        </div>
+                                    ) : (
+                                        <Paragraph className="text-primary font-medium">
+                                            {product.price} MMK
+                                        </Paragraph>
+                                    )}
+                                </div>
                                 <div
                                     className="text-accent font-medium"
                                     dangerouslySetInnerHTML={{

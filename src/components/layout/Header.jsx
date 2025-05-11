@@ -156,7 +156,7 @@ const Header = () => {
                                                 ref={categoryRef}
                                             >
                                                 {categoriesWithSubs.length >
-                                                1 ? (
+                                                0 ? (
                                                     <>
                                                         {categoriesWithSubs.map(
                                                             (cat) => (
@@ -490,7 +490,7 @@ const Header = () => {
                                                 </ul>
                                             ) : (
                                                 <Paragraph className="text-sm text-white">
-                                                    Failed to load categories
+                                                    No record found
                                                 </Paragraph>
                                             )}
                                         </div>
