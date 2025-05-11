@@ -36,8 +36,8 @@ const Footer = () => {
                             The TRIO Tails
                         </Heading>
                         <Paragraph className="font-light text-white ">
-                            The TRIO Tails is your one-stop online destination for
-                            quality products, trusted brands, and a seamless
+                            The TRIO Tails is your one-stop online destination
+                            for quality products, trusted brands, and a seamless
                             shopping experience.
                         </Paragraph>
                     </div>
@@ -50,16 +50,19 @@ const Footer = () => {
                                 Menu
                             </Heading>
                             <ul className="space-y-2">
-                                {navLinks.map((link) => (
-                                    <li key={link.label}>
-                                        <Link
-                                            to={link.href}
-                                            className="font-light text-white transition-colors duration-300 hover:text-primary"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
+                                {navLinks.map((link) => {
+                                    if (link.label === "Categories") return;
+                                    return (
+                                        <li key={link.label}>
+                                            <Link
+                                                to={link.href}
+                                                className="font-light text-white transition-colors duration-300 hover:text-primary"
+                                            >
+                                                {link.label}
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>
@@ -68,9 +71,9 @@ const Footer = () => {
                             Contact Us
                         </Heading>
                         <ul className="space-y-4">
-                            <IconLabelContainer item={contactInfo.address}/>
-                            <IconLabelContainer item={contactInfo.email}/>
-                            <IconLabelContainer item={contactInfo.phone}/>
+                            <IconLabelContainer item={contactInfo.address} />
+                            <IconLabelContainer item={contactInfo.email} />
+                            <IconLabelContainer item={contactInfo.phone} />
                         </ul>
                     </div>
                 </div>
