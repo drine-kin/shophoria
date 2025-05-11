@@ -29,7 +29,7 @@ const useCartStore = create(
                     items: get().items.filter((i) => i.id !== id),
                 });
             },
-            resetCart: () => set({ items: [] }),
+            clearCart: () => set({ items: [] }),
         }),
         {
             name: "carts",

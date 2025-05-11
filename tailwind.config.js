@@ -14,11 +14,11 @@ export default {
                 bold: "700",
             },
             colors: {
-                primary: "#E3462C", // Vibrant orange (buttons, hero background)
-                secondary: "#F9D045", // Bright yellow (backgrounds, accents)
-                accent: "#253239", // Dark background (footer/nav)
-                surface: "#FFF8E7", // White cards and text backgrounds
-                neutral: "#F4F4F4", // Light gray background,
+                primary: "#E3462C",
+                secondary: "#F9D045",
+                accent: "#253239",
+                surface: "#FFF8E7",
+                neutral: "#F4F4F4",
             },
         },
     },

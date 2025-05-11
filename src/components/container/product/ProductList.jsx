@@ -35,12 +35,13 @@ export default function ProductList() {
                             ))}
                         </div>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex flex-wrap justify-center items-center gap-8">
                         <Pagination
                             setPageNumber={handlePageChange}
                             pageCount={data.last_page}
                             currentPage={page}
                         />
+                        <Paragraph className="!font-medium">Showing {data.from} to {data.to} of {data.total}</Paragraph>
                     </div>
                 </div>
             ) : (

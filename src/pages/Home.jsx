@@ -3,13 +3,11 @@ import Banner from "../components/container/home/Banner";
 import OurProducts from "../components/container/home/OurProducts";
 import ClientFeedbacks from "../components/container/home/ClientFeedbacks";
 import OurBrands from "../components/container/home/OurBrands";
-import TopCategories from "../components/container/home/TopCategories";
 
 const Home = () => {
     return (
         <div className="">
             <Banner />
-            {/* <TopCategories /> */}
             <AboutIntro btnLabel="More About Us" goToLink="/about"/>
             <OurProducts />
             <ClientFeedbacks />

@@ -1,0 +1,153 @@
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { fetchOrders } from "../api/orderApi";
+import Heading from "../components/ui/Heading";
+import Paragraph from "../components/ui/Paragraph";
+import useAuthStore from "../store/authStore";
+import PageContainer from "../components/custom/PageContainer";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
+import Pagination from "../components/ui/Pagination";
+
+const Orders = () => {
+    const { token } = useAuthStore();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = parseInt(searchParams.get("page") || "1", 10);
+
+    const navigate = useNavigate()
+
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["orders", page],
+        queryFn: () => fetchOrders(page, token),
+    });
+
+    const handlePageChange = (newPage) => {
+        searchParams.set("page", newPage);
+        setSearchParams(searchParams);
+    };
+
+    const orders = data?.data;
+
+    return (
+        <>
+            <Breadcrumbs />
+            <div className="container py-8">
+                <Heading as="h2" className="text-accent font-medium pb-6">
+                    My Orders
+                </Heading>
+                <div className="w-full overflow-x-auto">
+                    <div className="space-y-4">
+                        <PageContainer isLoading={isLoading} error={isError}>
+                            {orders && (
+                                <div className="relative overflow-x-auto space-y-8 ">
+                                    <table className="w-full text-left rounded-md shadow-sm border border-spacing-0 border-collapse overflow-hidden">
+                                        <thead className="text-white uppercase text-sm bg-primary">
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 whitespace-nowrap"
+                                                >
+                                                    Order ID
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    Voucher No
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    Qty
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    Total
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    Note
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    Order Status
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    Address
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {orders.map((order) => (
+                                                <tr
+                                                    key={order.id}
+                                                    onClick={() => navigate(`/orders/${order.id}`)}
+                                                    className="bg-white border-b cursor-pointer transition-all duration-100 hover:bg-primary hover:text-white"
+                                                >
+                                                    <th
+                                                        scope="row"
+                                                        className="px-6 py-4 font-medium whitespace-nowrap"
+                                                    >
+                                                        {order.id}
+                                                    </th>
+                                                    <td className="px-6 py-4 font-light whitespace-nowrap">
+                                                        {order.voucher_no}
+                                                    </td>
+                                                    <td className="px-6 py-4 font-light">
+                                                        {order.total_qty}
+                                                    </td>
+                                                    <td className="px-6 py-4 font-light ">
+                                                        ${order.total_amount}
+                                                    </td>
+                                                    <td className="px-6 py-4font-light ">
+                                                        {order.msg || "—"}
+                                                    </td>
+                                                    <td
+                                                        className={`px-6 py-4 font-light ${
+                                                            order.status
+                                                                ? "text-green-500"
+                                                                : "text-yellow-500"
+                                                        }`}
+                                                    >
+                                                        {order.status
+                                                            ? "Confirmed"
+                                                            : "Pending"}
+                                                    </td>
+                                                    <td className="px-6 py-4 font-light truncate">
+                                                        {order.address}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    <div className="flex flex-wrap justify-center items-center gap-8">
+                                        <Pagination
+                                            setPageNumber={handlePageChange}
+                                            pageCount={data.meta.last_page}
+                                            currentPage={page}
+                                        />
+                                        <Paragraph className="!font-medium">
+                                            Showing {data.meta.from} to {data.meta.to} of{" "}
+                                            {data.meta.total}
+                                        </Paragraph>
+                                    </div>
+                                </div>
+                            )}
+                        </PageContainer>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Orders;

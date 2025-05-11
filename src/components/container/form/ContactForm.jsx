@@ -64,12 +64,14 @@ const ContactForm = () => {
                             placeholder="Your Message"
                             required
                         />
-                        <Button
-                            disabled={isSending}
-                            className="bg-primary text-white hover:bg-primary/80"
-                        >
-                            Send Message
-                        </Button>
+                        <div className="flex justify-end">
+                            <Button
+                                disabled={isSending}
+                                className="bg-primary text-white hover:bg-primary/80"
+                            >
+                                Send Message
+                            </Button>
+                        </div>
                     </form>
                 </div>
             </div>

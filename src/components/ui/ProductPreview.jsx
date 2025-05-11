@@ -66,12 +66,12 @@ const ProductPreview = ({ item }) => {
                         }}
                     />
                 </div>
-                <Link
+                {/* <Link
                     to="/login"
                     className="absolute top-4 right-4 cursor-pointer text-primary transition-transform duration-500 hover:scale-125"
                 >
                     <IoMdHeartEmpty size={28} />
-                </Link>
+                </Link> */}
             </div>
             <div className="bg-accent p-4 space-y-2">
                 <Link to={`/products/${item.id}`}>

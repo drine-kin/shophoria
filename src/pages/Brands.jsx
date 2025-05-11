@@ -17,10 +17,10 @@ const Brands = () => {
         <>
             <Breadcrumbs />
             <div className="container py-8">
-                <Heading as="h2" className="text-accent font-medium">
+                <Heading as="h2" className="text-accent font-medium pb-6">
                     Brands
                 </Heading>
-                <div className="bg-white rounded-md py-4">
+                <div className="bg-white rounded-md px-6 py-4">
                     <PageContainer isLoading={isLoading} error={error}>
                         {brands && brands.length > 0 ? (
                             <div className="space-y-8">

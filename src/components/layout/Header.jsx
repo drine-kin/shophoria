@@ -1,33 +1,25 @@
-import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BsHandbag } from "react-icons/bs";
 import { GoPerson } from "react-icons/go";
-import { HiMenuAlt1, HiX, HiChevronDown, HiChevronUp } from "react-icons/hi";
+import { HiMenuAlt1, HiX } from "react-icons/hi";
 import { IoIosClose } from "react-icons/io";
 
 import navLinks from "../../constants/navLinks";
-import brands from "../../constants/brands";
-import categories from "../../constants/categories";
 import Heading from "../ui/Heading";
 import useCartStore from "../../store/cartStore";
+import useAuthStore from "../../store/authStore";
+import Paragraph from "../ui/Paragraph";
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isBrandsOpen, setIsBrandsOpen] = useState(false);
-    const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-    // const [brandsTimeoutId, setBrandsTimeoutId] = useState(null);
-    const [categoriesTimeoutId, setCategoriesTimeoutId] = useState(null);
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const userMenuRef = useRef(null);
     const navigate = useNavigate();
-    const location = useLocation();
+    const { user } = useAuthStore();
+    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+    const logout = useAuthStore((state) => state.logout);
     const itemsCount = useCartStore((state) => state.items.length);
-
-    // const isBrandsActive = brands.some((brand) =>
-    //     location.pathname.startsWith(brand.link)
-    // );
-
-    const isCategoriesActive = categories.some((category) =>
-        location.pathname.startsWith(category.link)
-    );
 
     useEffect(() => {
         if (isMobileMenuOpen) {
@@ -41,55 +33,30 @@ const Header = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-    // const handleBrandsMouseEnter = () => {
-    //     if (brandsTimeoutId) {
-    //         clearTimeout(brandsTimeoutId);
-    //     }
-    //     if (categoriesTimeoutId) {
-    //         clearTimeout(categoriesTimeoutId);
-    //         setIsCategoriesOpen(false);
-    //     }
-    //     setIsBrandsOpen(true);
-    // };
-
-    // const handleBrandsMouseLeave = () => {
-    //     const id = setTimeout(() => {
-    //         setIsBrandsOpen(false);
-    //     }, 300);
-    //     setBrandsTimeoutId(id);
-    // };
-
-    const handleCategoriesMouseEnter = () => {
-        if (categoriesTimeoutId) {
-            clearTimeout(categoriesTimeoutId);
-        }
-        // if (brandsTimeoutId) {
-        //     clearTimeout(brandsTimeoutId);
-        //     setIsBrandsOpen(false);
-        // }
-        setIsCategoriesOpen(true);
+    const handleUserMenuToggle = () => {
+        setShowUserMenu((prev) => !prev);
     };
 
-    const handleCategoriesMouseLeave = () => {
-        const id = setTimeout(() => {
-            setIsCategoriesOpen(false);
-        }, 300);
-        setCategoriesTimeoutId(id);
+    const handleLogout = () => {
+        setIsMobileMenuOpen(false)
+        logout();
+        navigate("/");
     };
 
-    // const toggleBrands = () => {
-    //     setIsBrandsOpen(!isBrandsOpen);
-    //     if (isCategoriesOpen) {
-    //         setIsCategoriesOpen(false);
-    //     }
-    // };
-
-    const toggleCategories = () => {
-        setIsCategoriesOpen(!isCategoriesOpen);
-        if (isBrandsOpen) {
-            setIsBrandsOpen(false);
-        }
-    };
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                userMenuRef.current &&
+                !userMenuRef.current.contains(event.target)
+            ) {
+                setShowUserMenu(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <header className="bg-primary py-6 sticky top-0 z-50">
@@ -106,137 +73,26 @@ const Header = () => {
                         <ul className="flex gap-8 justify-between items-center text-white">
                             {navLinks.map((item) => (
                                 <li key={item.label} className="relative">
-                                    {/* {item.label === "Brands" ? (
-                                        <div
-                                            className={`font-light cursor-pointer ${
-                                                isBrandsOpen || isBrandsActive
+                                    <NavLink
+                                        to={item.href}
+                                        end={item.href === "/"}
+                                        className={({ isActive }) =>
+                                            `text-lg font-light hover:text-secondary transition-colors duration-200 ${
+                                                isActive
                                                     ? "text-secondary"
                                                     : "text-white"
-                                            }`}
-                                            onMouseEnter={
-                                                handleBrandsMouseEnter
-                                            }
-                                            onMouseLeave={
-                                                handleBrandsMouseLeave
-                                            }
-                                        >
-                                            <div className="flex items-center text-lg">
-                                                {item.label}
-                                                {isBrandsOpen ? (
-                                                    <HiChevronUp size={20} />
-                                                ) : (
-                                                    <HiChevronDown size={20} />
-                                                )}
-                                            </div>
-                                            //  Brands Submenu 
-                                            <div
-                                                className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform ${
-                                                    isBrandsOpen
-                                                        ? "opacity-100 translate-y-0"
-                                                        : "opacity-0 -translate-y-2 pointer-events-none"
-                                                }`}
-                                                onMouseEnter={
-                                                    handleBrandsMouseEnter
-                                                }
-                                                onMouseLeave={
-                                                    handleBrandsMouseLeave
-                                                }
-                                            >
-                                                {brands.map((brand) => (
-                                                    <NavLink
-                                                        key={brand.id}
-                                                        to={brand.link}
-                                                        className={({
-                                                            isActive,
-                                                        }) =>
-                                                            `block px-4 py-2 hover:bg-primary hover:text-white transition-colors duration-200 ${
-                                                                isActive
-                                                                    ? "bg-primary text-white"
-                                                                    : "text-gray-800"
-                                                            }`
-                                                        }
-                                                    >
-                                                        {brand.name}
-                                                    </NavLink>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ) :   */}
-                                    {item.label === "Categories" ? (
-                                        <div
-                                            className={`font-light cursor-pointer ${
-                                                isCategoriesOpen ||
-                                                isCategoriesActive
-                                                    ? "text-secondary"
-                                                    : "text-white"
-                                            }`}
-                                            onMouseEnter={
-                                                handleCategoriesMouseEnter
-                                            }
-                                            onMouseLeave={
-                                                handleCategoriesMouseLeave
-                                            }
-                                        >
-                                            <div className="flex items-center text-lg">
-                                                {item.label}
-                                                {isCategoriesOpen ? (
-                                                    <HiChevronUp size={20} />
-                                                ) : (
-                                                    <HiChevronDown size={20} />
-                                                )}
-                                            </div>
-                                            {/* Categories Submenu */}
-                                            <div
-                                                className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform ${
-                                                    isCategoriesOpen
-                                                        ? "opacity-100 translate-y-0"
-                                                        : "opacity-0 -translate-y-2 pointer-events-none"
-                                                }`}
-                                                onMouseEnter={
-                                                    handleCategoriesMouseEnter
-                                                }
-                                                onMouseLeave={
-                                                    handleCategoriesMouseLeave
-                                                }
-                                            >
-                                                {categories.map((category) => (
-                                                    <NavLink
-                                                        key={category.id}
-                                                        to={category.link}
-                                                        className={({
-                                                            isActive,
-                                                        }) =>
-                                                            `block px-4 py-2 hover:bg-primary hover:text-white transition-colors duration-200 ${
-                                                                isActive
-                                                                    ? "bg-primary text-white"
-                                                                    : "text-gray-800"
-                                                            }`
-                                                        }
-                                                    >
-                                                        {category.name}
-                                                    </NavLink>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <NavLink
-                                            to={item.href}
-                                            end={item.href === '/'}
-                                            className={({ isActive }) =>
-                                                `text-lg font-light hover:text-secondary transition-colors duration-200 ${
-                                                    isActive
-                                                        ? "text-secondary"
-                                                        : "text-white"
-                                                }`
-                                            }
-                                        >
-                                            {item.label}
-                                        </NavLink>
-                                    )}
+                                            }`
+                                        }
+                                    >
+                                        {item.label}
+                                    </NavLink>
                                 </li>
                             ))}
                         </ul>
-                        <div className="flex items-center gap-6">
+                        <div
+                            className="flex items-center gap-6 relative"
+                            ref={userMenuRef}
+                        >
                             <div
                                 className="relative text-white cursor-pointer transition-transform duration-300 hover:text-secondary"
                                 onClick={() => navigate("/cart")}
@@ -246,9 +102,61 @@ const Header = () => {
                                     {itemsCount}
                                 </span>
                             </div>
-                            <div className="text-white">
-                                <GoPerson size={20} />
-                            </div>
+                            {isLoggedIn ? (
+                                <>
+                                    <div
+                                        className="w-9 h-9 rounded-full text-white border flex items-center justify-center cursor-pointer"
+                                        onClick={handleUserMenuToggle}
+                                    >
+                                        <Paragraph className="text-white">
+                                            {user?.name
+                                                ?.split(" ")
+                                                .map((n) => n[0])
+                                                .join("")}
+                                        </Paragraph>
+                                    </div>
+                                    <div
+                                        className={`absolute top-full right-0 mt-3 p-1 w-32 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform ${
+                                            showUserMenu
+                                                ? "opacity-100 translate-y-0"
+                                                : "opacity-0 -translate-y-2 pointer-events-none"
+                                        }`}
+                                    >
+                                        <NavLink
+                                            to="/orders"
+                                            onClick={() => setShowUserMenu(false)}
+                                            className={({ isActive }) =>
+                                                `block px-4 py-2 hover:bg-primary hover:text-white transition-colors duration-200 ${
+                                                    isActive
+                                                        ? "bg-primary text-white"
+                                                        : "text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            Orders
+                                        </NavLink>
+                                        <button
+                                            onClick={handleLogout}
+                                            className={`w-full text-left px-4 py-2 hover:bg-primary hover:text-white transition-colors duration-200`}
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <NavLink
+                                    to="/login"
+                                    className={({ isActive }) =>
+                                        `cursor-pointer hover:text-secondary transition-colors ${
+                                            isActive
+                                                ? "text-secondary"
+                                                : "text-white"
+                                        }`
+                                    }
+                                >
+                                    <GoPerson size={20} />
+                                </NavLink>
+                            )}
                         </div>
                     </div>
 
@@ -286,135 +194,21 @@ const Header = () => {
                         <ul className="flex flex-col text-white space-y-2">
                             {navLinks.map((item) => (
                                 <li key={item.label}>
-                                    {/* {item.label === "Brands" ? (
-                                        <div>
-                                            <button
-                                                className={`flex items-center justify-between w-full font-light text-base ${
-                                                    isBrandsOpen ||
-                                                    isBrandsActive
-                                                        ? "text-secondary"
-                                                        : "text-white"
-                                                }`}
-                                                onClick={toggleBrands}
-                                            >
-                                                <span>{item.label}</span>
-                                                {isBrandsOpen ? (
-                                                    <HiChevronUp
-                                                        size={18}
-                                                        className="text-white"
-                                                    />
-                                                ) : (
-                                                    <HiChevronDown
-                                                        size={18}
-                                                        className="text-white"
-                                                    />
-                                                )}
-                                            </button>
-                                            <div
-                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                                                    isBrandsOpen
-                                                        ? "max-h-96 opacity-100"
-                                                        : "max-h-0 opacity-0"
-                                                }`}
-                                            >
-                                                <ul className="pl-4 py-1.5 space-y-1">
-                                                    {brands.map((brand) => (
-                                                        <li key={brand.id}>
-                                                            <NavLink
-                                                                to={brand.link}
-                                                                className={({ isActive }) =>
-                                                                    `font-light text-sm py-1.5 hover:text-primary transition-colors duration-200 ${
-                                                                        isActive
-                                                                            ? "text-gray-800"
-                                                                            : "text-white"
-                                                                    }`
-                                                                }
-                                                                onClick={() =>
-                                                                    setIsMobileMenuOpen(false)
-                                                                }
-                                                            >
-                                                                {brand.name}
-                                                            </NavLink>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    ) : */}
-                                    {item.label === "Categories" ? (
-                                        <div>
-                                            <button
-                                                className={`flex items-center justify-between w-full font-light text-base ${
-                                                    isCategoriesOpen ||
-                                                    isCategoriesActive
-                                                        ? "text-secondary"
-                                                        : "text-white"
-                                                }`}
-                                                onClick={toggleCategories}
-                                            >
-                                                <span>{item.label}</span>
-                                                {isCategoriesOpen ? (
-                                                    <HiChevronUp
-                                                        size={18}
-                                                        className="text-white"
-                                                    />
-                                                ) : (
-                                                    <HiChevronDown
-                                                        size={18}
-                                                        className="text-white"
-                                                    />
-                                                )}
-                                            </button>
-                                            <div
-                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                                                    isCategoriesOpen
-                                                        ? "max-h-96 opacity-100"
-                                                        : "max-h-0 opacity-0"
-                                                }`}
-                                            >
-                                                <ul className="pl-4 py-1.5 space-y-1">
-                                                    {categories.map(
-                                                        (category) => (
-                                                            <li key={category.id}>
-                                                                <NavLink
-                                                                    to={category.link}
-                                                                    end={category.link === '/'}
-                                                                    className={({ isActive }) =>
-                                                                        `font-light text-sm py-1.5 hover:text-primary transition-colors duration-200 ${
-                                                                            isActive
-                                                                                ? "text-secondary"
-                                                                                : "text-white"
-                                                                        }`
-                                                                    }
-                                                                    onClick={() =>
-                                                                        setIsMobileMenuOpen(false)
-                                                                    }
-                                                                >
-                                                                    {category.name}
-                                                                </NavLink>
-                                                            </li>
-                                                        )
-                                                    )}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <NavLink
-                                            to={item.href}
-                                            className={({ isActive }) =>
-                                                `font-light text-base py-2 hover:text-primary transition-colors duration-200 ${
-                                                    isActive
-                                                        ? "text-secondary"
-                                                        : "text-white"
-                                                }`
-                                            }
-                                            onClick={() =>
-                                                setIsMobileMenuOpen(false)
-                                            }
-                                        >
-                                            {item.label}
-                                        </NavLink>
-                                    )}
+                                    <NavLink
+                                        to={item.href}
+                                        className={({ isActive }) =>
+                                            `font-light text-base py-2 hover:text-primary transition-colors duration-200 ${
+                                                isActive
+                                                    ? "text-secondary"
+                                                    : "text-white"
+                                            }`
+                                        }
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
+                                    >
+                                        {item.label}
+                                    </NavLink>
                                 </li>
                             ))}
                         </ul>
@@ -431,9 +225,45 @@ const Header = () => {
                                     {itemsCount}
                                 </span>
                             </div>
-                            <div className="text-white">
-                                <GoPerson size={20} />
-                            </div>
+                        </div>
+                        <div className="flex flex-col pt-2">
+                            {isLoggedIn ? (
+                                <>
+                                    <NavLink
+                                        to="/orders"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className={({ isActive }) =>
+                                            `font-light text-base py-1 ${
+                                                isActive
+                                                    ? "text-secondary"
+                                                    : "text-white"
+                                            }`
+                                        }
+                                    >
+                                        Orders
+                                    </NavLink>
+                                    <div
+                                        onClick={handleLogout}
+                                        className="text-white font-light text-base py-1"
+                                    >
+                                        Logout
+                                    </div>
+                                </>
+                            ) : (
+                                <NavLink
+                                    to="/login"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className={({ isActive }) =>
+                                        `pt-2 cursor-pointer hover:text-secondary transition-colors ${
+                                            isActive
+                                                ? "text-secondary"
+                                                : "text-white"
+                                        }`
+                                    }
+                                >
+                                    <GoPerson size={20} />
+                                </NavLink>
+                            )}
                         </div>
                     </div>
                 </div>
