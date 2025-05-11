@@ -13,7 +13,7 @@ const useCartStore = create(
                             i.id === item.id
                                 ? {
                                       ...i,
-                                      cartQty: item.cartQty,
+                                      cartQty: i.cartQty + item.cartQty,
                                   }
                                 : i
                         ),
