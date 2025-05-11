@@ -89,7 +89,7 @@ const ProductPreview = ({ item }) => {
                         </Paragraph>
                     </div>
                 ) : (
-                    <Paragraph className="text-primary font-medium">
+                    <Paragraph className="text-white font-medium">
                         {item.price} MMK
                     </Paragraph>
                 )}
