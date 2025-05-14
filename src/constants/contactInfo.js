@@ -4,7 +4,7 @@ import { FiMapPin } from "react-icons/fi";
 const contactInfo = {
     address: {
         icon: FiMapPin,
-        label: "11051, Kan Street, Hlaing Township, Yangon, Myanmar",
+        label: "Yadanar Hninsi Residence, Yadanar Road, 61 Ward, Dagon Seikkan Tsp",
         href: "https://maps.google.com",
     },
     email: {
@@ -14,8 +14,8 @@ const contactInfo = {
     },
     phone: { 
         icon: HiOutlinePhone, 
-        label: "09 978475562", 
-        href: "tel:+959978475562" 
+        label: "09 400 200 008", 
+        href: "tel:+959 400 200 008"  
     },
 };
 
